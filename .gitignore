@@ -5,3 +5,4 @@ testgit/
 build/
 __pycache__
 .gitattributes
+.env
