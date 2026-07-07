@@ -1,0 +1,122 @@
+import os
+from time import sleep
+from database import connect_to_server, connect_using_env
+from setup import setup_check, setup_wizard, save_config
+
+def clear(): # To clear the screen
+    os.system("cls")
+    sleep(0.2)
+    
+  
+def title():
+    # menu
+    print("\033[36m==========================================")
+    print("\033[1;97m      INVENTORY MANAGEMENT SYSTEM \033[0m")
+    print("\033[36m==========================================\033[0m")
+
+def exit_app():
+    print(f"\033[1;93mExiting the program...\033[0m")
+    sleep(1)
+    print("\n\033[1;95m!!😊Thank you for using!!\033[0m")
+    sleep(0.5)
+    print("\033[1;95mCoded by: \033[1;97mAishik Ghosh\033[0m")
+    sleep(0.5)
+    input("\nPress Enter to Exit...")
+    exit()
+   
+if __name__ == "__main__":
+    print(f"{" ":<12}{"\033[1;92mSTARTUP SUCCESSFUL!!\033[0m"}")
+    sleep(0.5)
+    clear()
+    title()
+    sleep(0.1)
+    print("\033[1;73mWelcome !!\033[0m\n")
+    sleep(0.5)
+    if setup_check():
+        print("\033[1;92m✅ Configuration Found\033[0m")
+        sleep(1)
+        print(f"\033[1;93mConnecting to MySQL server...\033[0m\n")
+        sleep(0.5)
+
+        connection = connect_using_env()
+
+        if connection:
+            print(f"{" ":<12}{"\033[1;92m✅ Successfully connected to the MySQL server\033[0m"}")
+            sleep(0.5)
+            input("Press Enter to continue...")
+        else : 
+            print("\033[1;91m❌ Failed to connect to the server\033[0m\n")
+            sleep(0.5)
+            print("\033[1;93mPlease ensure:\n• MySQL Server is installed\n• MySQL Server is running\n• User Credentials in the .env file are correct\033[0m\n")
+            sleep(1)
+            exit_app()
+
+    else:
+        print("\033[1;91mNo configuration found\033[0m\n")
+        sleep(0.5)
+        while True:
+            print("\033[1;93mLaunching setup wizard...\033[0m\n")
+            sleep(0.5)
+            clear()
+            title()
+            sleep(0.1)
+            host, port, user, password = setup_wizard()
+
+            connection = connect_to_server(host, port, user, password)
+
+            if connection:
+                print(f"{" ":<12}{"\033[1;92m✅ Successfully connected\033[0m"}")
+                sleep(0.5)
+                print("\033[1;73mSaving configuration...\033[0m\n")
+                success, message = (save_config(host, port, user, password))
+                if success:
+                    print(f"\033[1;92m✅ Configuration saved successfully\033[0m")
+                    sleep(0.5)
+                else:
+                    print("\033[1;91m❌ Failed to save the configuration\033[0m\n")
+                    sleep(0.2)
+                    print(f"{"\033[1;93mReason:":<10}{f"\033[1;97m{message}"}\033[0m")
+                    sleep(0.2)
+                    print(f"\n{" ":<10}\033[1;97mPlease make sure that this issue has been fixed.\033[0m")
+                    sleep(0.5)
+                    input("Press Enter to return to the setup wizard and try again...")
+                    continue
+
+                sleep(0.5)
+                input("Press Enter to continue...")
+                break
+
+            else : 
+                print("\033[1;91m❌ Failed to connect to the server.\033[0m\n")
+                sleep(0.5)
+                print("\033[1;93mPlease ensure:\n• MySQL Server is installed\n• MySQL Server is running\033[0m\n")
+                sleep(1)
+                print("\033[1;96m1. Try Again\n2. Exit\033[0m\n")
+                while True:
+                    try:
+                        choice = int(input("\033[1;93mChoice: \033[0m"))
+                    
+                    except ValueError:
+                        print("\033[1;91Enter a valid choice\033[0m")
+                        sleep(1)
+                        continue
+                    
+                    if choice == 1:
+                        break
+
+                    elif choice == 2:
+                        exit_app()
+
+                    else:
+                        print("\033[1;91Enter a valid choice\033[0m")
+                        sleep(1)
+                        continue
+
+
+
+
+
+
+
+
+    
