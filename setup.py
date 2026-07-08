@@ -39,15 +39,46 @@ def setup_wizard():
     if not user:
         user = "root"
 
+    print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
     while True:
-        password = getpass("\033[1;96mPassword: \033[0m")
+        try:
+            choice = int(input("\033[1;93mChoice: \033[0m"))
+
+        except ValueError:
+            print("\033[1;91mEnter a valid input\033[0m")
+            sleep(1)
+            continue
+
+        if choice == 1:
+            import pwinput
+            while True:
+                password = pwinput.pwinput(prompt="\033[1;96mPassword: \033[0m", mask= "*")
+
+                if password:
+                    break
+
+                print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                sleep(0.5)
+
+        elif choice == 2:
+            while True:
+                password = input("\033[1;96mPassword: \033[0m")
+
+                if password:
+                    break
+
+                print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                sleep(0.5)
+
+        else:
+            print("\033[1;91mPlease enter 1 or 2...\033[0m")
+            sleep(1)
+            continue
 
         if password:
             break
 
-        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
-        sleep(0.5)
-
+    print("\033[1;97mChecking connection...")
     return host,port,user,password
     
 
@@ -70,8 +101,8 @@ def save_config(host, port, user, password):
             file.write(f'DB_PASSWORD="{password}"\n')
             file.write("DB_NAME=inventory_management\n")
         
-        if env_path.exist():
-            return True
+        if env_path.exists():
+            return True, "Configuration saved successfully"
         
         return False, "Failed to create .env file"
     
