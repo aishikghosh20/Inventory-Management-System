@@ -70,7 +70,7 @@ if __name__ == "__main__":
                 print("\033[1;73mSaving configuration...\033[0m\n")
                 success, message = (save_config(host, port, user, password))
                 if success:
-                    print(f"\033[1;92m✅ Configuration saved successfully\033[0m")
+                    print(f"\033[1;92m✅ {message}\033[0m")
                     sleep(0.5)
                 else:
                     print("\033[1;91m❌ Failed to save the configuration\033[0m\n")
@@ -88,8 +88,8 @@ if __name__ == "__main__":
 
             else : 
                 print("\033[1;91m❌ Failed to connect to the server.\033[0m\n")
-                sleep(0.5)
-                print("\033[1;93mPlease ensure:\n• MySQL Server is installed\n• MySQL Server is running\033[0m\n")
+                sleep(1)
+                print("\033[1;93mPlease ensure:\n• MySQL Server is installed\n• MySQL Server is running\n• All credentials are correct\033[0m\n")
                 sleep(1)
                 print("\033[1;96m1. Try Again\n2. Exit\033[0m\n")
                 while True:
@@ -97,7 +97,7 @@ if __name__ == "__main__":
                         choice = int(input("\033[1;93mChoice: \033[0m"))
                     
                     except ValueError:
-                        print("\033[1;91Enter a valid choice\033[0m")
+                        print("\033[1;91mEnter a valid choice\033[0m")
                         sleep(1)
                         continue
                     
@@ -108,7 +108,7 @@ if __name__ == "__main__":
                         exit_app()
 
                     else:
-                        print("\033[1;91Enter a valid choice\033[0m")
+                        print("\033[1;91mPlease enter 1 or 2...\033[0m")
                         sleep(1)
                         continue
 
