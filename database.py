@@ -1,7 +1,6 @@
 # to connect to the MySQL server using the credentials from config.py
 
 import mysql.connector
-from config import DB_HOST, DB_PASSWORD, DB_PORT, DB_USER
 import time
 
 def connect_to_server(host, port, user, password):
@@ -20,6 +19,7 @@ def connect_to_server(host, port, user, password):
         return None
     
 def connect_using_env():
+    from config import DB_HOST, DB_PASSWORD, DB_PORT, DB_USER
     try: 
         connection = mysql.connector.connect(
         host = DB_HOST,
