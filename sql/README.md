@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/37fce9b1-0c19-44e0-84c3-92c699179d23
+
 # Smart Inventory Management System
 ## Database Structure
 
