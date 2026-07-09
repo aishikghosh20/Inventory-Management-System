@@ -3,6 +3,7 @@ from time import sleep
 from database import connect_to_server, connect_using_env
 from setup import setup_check, setup_wizard, save_config
 from intializing_db import database_exists, create_database, connect_database, tables_exists, tables_create
+from authentication import count_users, create_user, user_login
 
 def clear(): # To clear the screen
     os.system("cls")
@@ -149,7 +150,7 @@ if __name__ == "__main__":
     sleep(0.5)
     connect_database(connection)
     print(f"\033[1;92m✅ Successfully connected the database\033[0m\n")
-    sleep(1.5)
+    sleep(1)
     # input("Press Enter to continue...")
 
     clear()
@@ -174,3 +175,76 @@ if __name__ == "__main__":
         sleep(0.5)
         input("Press Enter to continue...")
            
+
+    clear()
+    title()
+    print("\n\033[1;93mChecking for administrators...\033[0m\n")
+
+    count = count_users(connection)
+    if count == 0:
+        print("\n\033[1;91m✕ No administrator account found\033[0m\n")
+        sleep(0.5)
+        print("\n\033[1;93mLaunching administrator setup wizard...\033[0m\n")
+        sleep(1)
+        clear()
+        create_user(connection)
+        print(f"\033[1;92m✅ Administrator account created successfully\033[0m\n")
+        sleep(0.1)
+        input("Press Enter to continue with login...")
+        while True:
+            clear()
+            current_user = user_login(connection)
+            if not current_user:
+                print(f"\033[1;91m✕ Invalid credentials\033[0m")
+                sleep(1)
+                continue
+            else:
+                break
+
+        print(f"\033[1;92m✅ Login successful\033[0m\n")
+        sleep(1)
+    else:
+        print(f"\n\033[1;93m{count} administrator accounts found\033[0m\n")
+        sleep(0.5)
+        while True:
+            print(f"\n\033[1;97m1. Login\n2. Create new account\033[0m\n")
+            sleep(0.5)
+            try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
+
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
+
+            if choice == 1:
+                sleep(0.5)
+                clear()
+                current_user = user_login(connection)
+                if not current_user:
+                    print(f"\033[1;91m✕ Invalid credentials\033[0m")
+                    sleep(1)
+                    continue
+                else:
+                    break
+
+            if choice == 2:
+                print("\n\033[1;93mLaunching administrator setup wizard...\033[0m\n")
+                sleep(0.5)
+                clear()
+                create_user(connection)
+                print(f"\033[1;92m✅ Administrator account created successfully\033[0m\n")
+                sleep(0.1)
+                print(f"\033[1;92m✅ Login successful\033[0m\n")
+                sleep(1)
+                break
+
+
+            
+
+
+
+
+        
+
+
