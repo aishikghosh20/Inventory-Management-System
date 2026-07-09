@@ -2,64 +2,115 @@
 
 https://github.com/user-attachments/assets/37fce9b1-0c19-44e0-84c3-92c699179d23
 
-# Smart Inventory Management System
-## Database Structure
+# SQL Folder
 
-This folder contains all SQL files required to initialize the application's database.
-
-## Files
-
-### schema.sql
-Contains the complete database schema including:
-
-- Database tables
-- Primary Keys
-- Foreign Keys
-- Constraints
-- Default values
-- Timestamp fields
-
-### database_startup.sql
-
-Responsible for creating the application database if it does not already exist.
+This folder contains the SQL scripts required to initialize and maintain the Inventory Management System database.
 
 ---
 
-## Database Tables
+## Contents
 
-- Users
+### schema.sql
+
+Creates the complete database schema.
+
+Includes:
+
 - Categories
 - Suppliers
 - Products
 - Customers
 - Purchases
-- Purchase_Items
+- Purchase Items
 - Sales
-- Sale_Items
+- Sale Items
+- Users
 
 ---
 
-## Features
+### database_startup.sql
 
-- Fully normalized relational database
-- Referential integrity
-- Foreign key constraints
-- Automatic timestamps
-- CHECK constraints
-- Safe initialization using `CREATE TABLE IF NOT EXISTS`
+Contains database initialization scripts.
+
+Responsibilities:
+
+- Create the Inventory Management database
+- Verify database existence
 
 ---
 
-## Startup Process
+### user_authentication.sql
 
-The application automatically:
+Contains all SQL queries related to administrator authentication.
 
-1. Connects to MySQL
-2. Checks whether the database exists
-3. Creates the database if necessary
-4. Connects to the database
-5. Verifies all required tables
-6. Creates missing tables
-7. Launches the application
+Includes:
 
-No manual SQL execution is required by the user.
+- Administrator existence check
+- Username availability check
+- Email availability check
+- Phone number availability check
+- User login query
+- Administrator account creation
+
+---
+
+## Authentication
+
+Passwords are **never stored in plain text**.
+
+The application uses:
+
+- bcrypt password hashing
+- Parameterized SQL queries
+- Secure password verification using `bcrypt.checkpw()`
+
+---
+
+## Database Structure
+
+```
+Inventory Management
+│
+├── Categories
+├── Suppliers
+├── Products
+├── Customers
+├── Purchases
+├── Purchase_Items
+├── Sales
+├── Sale_Items
+└── Users
+```
+
+---
+
+## Demonstration
+
+This folder includes a demonstration video showing:
+
+- Automatic database creation
+- Automatic table creation
+- Administrator account creation
+- Secure login
+- Authentication workflow
+
+```
+
+---
+
+## Current Version
+
+**v0.4**
+
+Implemented:
+
+- Automatic database initialization
+- Automatic schema creation
+- Authentication system
+- Secure password hashing
+- Administrator setup
+- Administrator login
+
+Next Version:
+
+**v0.5 — Inventory Management Dashboard & CRUD Operations**
