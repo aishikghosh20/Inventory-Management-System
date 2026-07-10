@@ -6,6 +6,15 @@ Create Table IF NOT EXISTS Users(
   last_name varchar(50),
   email varchar(255) UNIQUE,
   phone_number varchar(20) UNIQUE,
+  
+  role  ENUM(
+      "Administrator",
+      "Manager",
+      "Sales Staff",
+      "Inventory Staff",
+      "Viewer"
+  ) NOT NULL DEFAULT "Administrator",
+
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
