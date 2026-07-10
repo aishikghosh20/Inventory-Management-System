@@ -20,7 +20,7 @@ def count_users(connection):
     count = result[0] # to get the actual result from the tuple
     return count
 
-def create_user(connection):
+def create_user(connection, count):
     print("\033[36m==========================================")
     print("\033[1;97m       CREATE ADMINISTRATOR ACCOUNT \033[0m")
     print("\033[36m==========================================\033[0m")
@@ -251,6 +251,44 @@ def create_user(connection):
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()) 
     hashed_password = hashed_password.decode("utf-8") # converts into a normal string, for the password to be stored
 
+    
+    if count == 0:
+        role = "Administrator"
+        print("\033[1;97mNo existing users detected...\033[0m")
+        sleep(0.5)
+        print("\033[1;97mAdministrator role assigned automatically\033[0m")
+        sleep(1)
+
+    else:
+        print("\033[1;93mSelect Role:")
+        print("\033[1;97m[1] Administrator\n[2] Manager\n[3] Sales Staff\n[4] Inventory Staff\n[5] Viewer \033[0m")
+        while True:
+            try:
+                choice = int(input("\033[1;93Choice:  \033[0m"))
+
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
+
+            if choice == 1:
+                role = "Administrator"
+            elif choice == 2:
+                role = "Manager"
+            elif choice == 3:
+                role = "Sales Staff"
+            elif choice == 4:
+                role = "Inventory Staff"
+            elif choice == 5:
+                role = "Viewer"
+
+            else:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
+
+            break
+
     print("\033[1;93mInitializing user...")
     sleep(0.5)
 
@@ -265,9 +303,10 @@ def create_user(connection):
             first_name,
             last_name,
             email,
-            phone_number
+            phone_number,
+            role
         )
-        VALUES (%s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """,
         (
             username,
@@ -275,7 +314,8 @@ def create_user(connection):
             first_name,
             last_name,
             email,
-            phone_number
+            phone_number,
+            role
         )
     )
         connection.commit()
@@ -347,7 +387,7 @@ def user_login(connection):
 
     cursor = connection.cursor(buffered = True)
     try:
-        cursor.execute("SELECT user_id, first_name, last_name, password_hash FROM USERS WHERE username= %s", (username,))
+        cursor.execute("SELECT user_id, first_name, last_name, password_hash, role FROM USERS WHERE username= %s", (username,))
         result = cursor.fetchone()  
 
     except  Exception as e:
@@ -367,12 +407,13 @@ def user_login(connection):
         first_name = result[1]
         last_name = result[2]
         stored_hash = result[3]
+        role = result[4]
         match = bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8"))
 
         if match:
             print(f"\033[1;92mWelcome back, {first_name}!!\033[0m")
             sleep(1)
-            return {"user_id" : user_id, "first_name" : first_name, "username": username, "last_name": last_name}
+            return {"user_id" : user_id, "first_name" : first_name, "username": username, "last_name": last_name, "role" : role}
         else:
             return False
         
