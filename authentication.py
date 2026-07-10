@@ -347,7 +347,7 @@ def user_login(connection):
 
     cursor = connection.cursor(buffered = True)
     try:
-        cursor.execute("SELECT user_id, first_name, password_hash FROM USERS WHERE username= %s", (username,))
+        cursor.execute("SELECT user_id, first_name, last_name, password_hash FROM USERS WHERE username= %s", (username,))
         result = cursor.fetchone()  
 
     except  Exception as e:
@@ -365,13 +365,14 @@ def user_login(connection):
     else:
         user_id = result[0]
         first_name = result[1]
-        stored_hash = result[2]
+        last_name = result[2]
+        stored_hash = result[3]
         match = bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8"))
 
         if match:
             print(f"\033[1;92mWelcome back, {first_name}!!\033[0m")
             sleep(1)
-            return {"user_id" : user_id, "first_name" : first_name, "username": username}
+            return {"user_id" : user_id, "first_name" : first_name, "username": username, "last_name": last_name}
         else:
             return False
         
