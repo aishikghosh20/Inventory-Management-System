@@ -254,7 +254,7 @@ def create_user(connection, count):
     
     if count == 0:
         role = "Administrator"
-        print("\033[1;97mNo existing users detected...\033[0m")
+        print("\n\033[1;97mNo existing users detected...\033[0m")
         sleep(0.5)
         print("\033[1;97mAdministrator role assigned automatically\033[0m")
         sleep(1)
