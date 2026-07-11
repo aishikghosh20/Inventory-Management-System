@@ -1,21 +1,16 @@
+# SQL
 
-
-https://github.com/user-attachments/assets/37fce9b1-0c19-44e0-84c3-92c699179d23
-
-# SQL Folder
-
-This folder contains the SQL scripts required to initialize and maintain the Inventory Management System database.
+This folder contains all SQL scripts required to initialize and manage the Inventory Management System database.
 
 ---
 
-## Contents
+## Files
 
 ### schema.sql
 
-Creates the complete database schema.
+Creates the complete relational database including:
 
-Includes:
-
+- Users
 - Categories
 - Suppliers
 - Products
@@ -24,93 +19,81 @@ Includes:
 - Purchase Items
 - Sales
 - Sale Items
-- Users
+
+The schema includes:
+
+- Primary Keys
+- Foreign Keys
+- UNIQUE Constraints
+- ENUM fields
+- CHECK Constraints
+- Automatic timestamps
+- Transaction support
 
 ---
 
-### database_startup.sql
+## Foreign Key Design
 
-Contains database initialization scripts.
+The database is designed to preserve business data integrity.
 
-Responsibilities:
+### RESTRICT
 
-- Create the Inventory Management database
-- Verify database existence
+Used for business entities.
 
----
+Examples:
 
-### user_authentication.sql
+- Categories → Products
+- Suppliers → Products
+- Products → Sale Items
+- Products → Purchase Items
+- Users → Sales
+- Users → Purchases
 
-Contains all SQL queries related to administrator authentication.
+This prevents accidental deletion of important records.
 
-Includes:
+### CASCADE
 
-- Administrator existence check
-- Username availability check
-- Email availability check
-- Phone number availability check
-- User login query
-- Administrator account creation
+Used for transaction detail tables.
 
----
+Examples:
 
-## Authentication
+- Purchases → Purchase_Items
+- Sales → Sale_Items
 
-Passwords are **never stored in plain text**.
-
-The application uses:
-
-- bcrypt password hashing
-- Parameterized SQL queries
-- Secure password verification using `bcrypt.checkpw()`
+Deleting a transaction automatically removes its corresponding line items.
 
 ---
 
-## Database Structure
+## Transactions
 
-```
-Inventory Management
-│
-├── Categories
-├── Suppliers
-├── Products
-├── Customers
-├── Purchases
-├── Purchase_Items
-├── Sales
-├── Sale_Items
-└── Users
-```
+The schema executes inside a transaction.
 
----
+```sql
+SET autocommit = 0;
 
-## Demonstration
+START TRANSACTION;
 
-This folder includes a demonstration video showing:
+...
 
-- Automatic database creation
-- Automatic table creation
-- Administrator account creation
-- Secure login
-- Authentication workflow
-
+COMMIT;
 ```
 
 ---
 
-## Current Version
+## Current Status
 
-**v0.4**
+### Completed
 
-Implemented:
+- Database Schema
+- Authentication
+- User Roles
+- Categories CRUD
 
-- Automatic database initialization
-- Automatic schema creation
-- Authentication system
-- Secure password hashing
-- Administrator setup
-- Administrator login
+### Planned
 
-Next Version:
-
-**v0.5 — Inventory Management Dashboard & CRUD Operations**
+- Suppliers CRUD
+- Customers CRUD
+- Products CRUD
+- Purchases
+- Sales
+- Reports
