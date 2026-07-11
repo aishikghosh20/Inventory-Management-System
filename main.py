@@ -4,6 +4,7 @@ from database import connect_to_server, connect_using_env
 from setup import setup_check, setup_wizard, save_config
 from intializing_db import database_exists, create_database, connect_database, tables_exists, tables_create
 from authentication import count_users, create_user, user_login
+from crud import add_product, add_category, view_category, search_categories, update_category, delete_category
 
 def clear(): # To clear the screen
     os.system("cls")
@@ -240,7 +241,7 @@ def administrator_main_menu(connection, first_name, last_name, role):
 
         print(f"\033[1;97m⚙️  SYSTEM\033[0m")
         print(f"{" ":<5}\033[1;97m[8] Settings\n{" ":<5}[0] Exit\033[0m\n")
-        print("\033[36m==========================================\033[0m")
+        print(f"\033[36m└{'─' * 54}┘\033[0m")
         
         sleep(0.5)
         try:
@@ -256,7 +257,11 @@ def administrator_main_menu(connection, first_name, last_name, role):
             if menu_choice == 0:
                 continue
             elif menu_choice == 1:
-                pass
+                print("\n\033[1;97mInitializing product creation...")
+                sleep(0.5)
+                add_product(connection)
+                continue
+
             elif menu_choice == 2:
                 pass
             elif menu_choice == 3:
@@ -271,15 +276,30 @@ def administrator_main_menu(connection, first_name, last_name, role):
             if menu_choice == 0:
                 continue
             elif menu_choice == 1:
-                pass
+                print("\n\033[1;97mInitializing category creation...")
+                sleep(0.5)
+                add_category(connection)
+                continue
             elif menu_choice == 2:
-                pass
+                print("\n\033[1;97mLoading categories...")
+                sleep(0.5)
+                view_category(connection)
+                continue
             elif menu_choice == 3:
-                pass
+                print("\n\033[1;97mLoading search bar...")
+                sleep(0.5)
+                search_categories(connection)
+                continue
             elif menu_choice == 4:
-                pass
+                print("\n\033[1;97mUpdating category...")
+                sleep(0.5)
+                update_category(connection)
+                continue
             else:
-                pass
+                print("\n\033[1;97mDeleting category...")
+                sleep(0.5)
+                delete_category(connection)
+                continue
 
         elif choice == 3:
             menu_choice = suppliers_menu()
