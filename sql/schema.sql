@@ -1,3 +1,7 @@
+SET autocommit = 0;
+
+START TRANSACTION;
+
 Create Table IF NOT EXISTS Users(
   user_id int AUTO_INCREMENT Primary Key , 
   username varchar (50) UNIQUE NOT NULL,
@@ -6,7 +10,7 @@ Create Table IF NOT EXISTS Users(
   last_name varchar(50),
   email varchar(255) UNIQUE,
   phone_number varchar(20) UNIQUE,
-  
+
   role  ENUM(
       "Administrator",
       "Manager",
@@ -49,7 +53,7 @@ CREATE Table IF NOT EXISTS Customers(
 
 CREATE Table IF NOT EXISTS Products(
   product_id int AUTO_INCREMENT PRIMARY KEY,
-  product_name varchar(50) NOT NULL,
+  product_name varchar(150) NOT NULL,
   category_id int ,
   supplier_id int ,
   buying_price decimal(10,2) CHECK (buying_price >= 0),
@@ -63,13 +67,13 @@ CREATE Table IF NOT EXISTS Products(
   CONSTRAINT fk_products_category
   FOREIGN KEY (category_id)
   REFERENCES Categories(category_id) 
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE,
 
   CONSTRAINT fk_product_supplier
   FOREIGN KEY (supplier_id)
   REFERENCES Suppliers(supplier_id) 
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE
 );
 
@@ -80,16 +84,19 @@ CREATE Table IF NOT EXISTS Purchases(
   purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   total_amount decimal(10,2),
 
+  status ENUM('Completed', 'Cancelled')
+  NOT NULL DEFAULT 'Completed',
+
   CONSTRAINT fk_purchase_supplier
   FOREIGN KEY (supplier_id)
   REFERENCES Suppliers(supplier_id) 
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE,
 
   CONSTRAINT fk_purchase_user
   FOREIGN KEY (user_id)
   REFERENCES Users(user_id)
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE
 );
 
@@ -104,13 +111,13 @@ CREATE Table IF NOT EXISTS Purchase_items(
   CONSTRAINT fk_item_productid
   FOREIGN KEY (product_id)
   REFERENCES Products(product_id)
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE,
 
   CONSTRAINT fk_item_purchaseid
   FOREIGN KEY (purchase_id)
   REFERENCES Purchases(purchase_id)
-  ON DELETE SET NULL
+  ON DELETE CASCADE
   ON UPDATE CASCADE
 );
 
@@ -121,16 +128,19 @@ CREATE Table IF NOT EXISTS Sales(
   sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   total_amount decimal(10,2),
 
+  status ENUM('Completed', 'Cancelled')
+  NOT NULL DEFAULT 'Completed',
+
   CONSTRAINT fk_sales_customer
   FOREIGN KEY (customer_id)
   REFERENCES Customers(customer_id)
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE,
 
   CONSTRAINT fk_sales_userid
   FOREIGN KEY (user_id)
   REFERENCES Users(user_id)
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE
 );
 
@@ -145,13 +155,14 @@ CREATE Table IF NOT EXISTS Sale_items(
   CONSTRAINT fk_saleitem_productid
   FOREIGN KEY (product_id)
   REFERENCES Products(product_id)
-  ON DELETE SET NULL
+  ON DELETE RESTRICT
   ON UPDATE CASCADE,
 
   CONSTRAINT fk_saleitem_saleid
   FOREIGN KEY (sale_id)
   REFERENCES Sales(sale_id)
-  ON DELETE SET NULL
+  ON DELETE CASCADE
   ON UPDATE CASCADE
 );
 
+COMMIT;
