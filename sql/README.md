@@ -1,99 +1,228 @@
-# SQL
+# 🗄️ SQL
 
-This folder contains all SQL scripts required to initialize and manage the Inventory Management System database.
+This folder contains all SQL scripts used by the **Inventory Management System**. The scripts are organized according to their purpose, making it easier to understand the database structure, initialization process, authentication workflow, and CRUD operations.
 
 ---
 
-## Files
+## 📂 Folder Structure
+
+```
+SQL/
+│
+├── schema.sql
+├── database_startup.sql
+├── user_authentication.sql
+├── crud.sql
+└── README.md
+```
+
+---
+
+## 📄 Files
 
 ### schema.sql
 
-Creates the complete relational database including:
+Contains the complete database schema for the project.
 
+This file creates:
+
+- Database
+- Categories
+- Suppliers
+- Products
+- Customers
 - Users
+- Purchases
+- Purchase_Items
+- Sales
+- Sale_Items
+
+It also defines:
+
+- Primary Keys
+- Foreign Keys
+- Constraints
+- Default Values
+- ENUM fields
+- CHECK Constraints
+- Cascading Rules
+
+---
+
+### database_startup.sql
+
+Contains the SQL queries executed during application startup.
+
+Responsibilities include:
+
+- Checking database existence
+- Creating the database (if required)
+- Creating missing tables
+- Initializing default settings
+- Preparing the application for first-time use
+
+---
+
+### user_authentication.sql
+
+Contains every SQL query related to authentication.
+
+Includes:
+
+- User Registration
+- User Login
+- Password Verification
+- Password Updates
+- User Validation
+- User Management
+
+Passwords are securely stored using **bcrypt hashing** in the Python application before being saved to the database.
+
+---
+
+### crud.sql
+
+Contains the SQL queries used throughout the application for CRUD (Create, Read, Update and Delete) operations.
+
+Covered modules include:
+
 - Categories
 - Suppliers
 - Products
 - Customers
 - Purchases
-- Purchase Items
+- Purchase_Items
 - Sales
-- Sale Items
+- Sale_Items
+- Users
 
-The schema includes:
+Operations include:
 
-- Primary Keys
-- Foreign Keys
-- UNIQUE Constraints
-- ENUM fields
-- CHECK Constraints
-- Automatic timestamps
-- Transaction support
-
----
-
-## Foreign Key Design
-
-The database is designed to preserve business data integrity.
-
-### RESTRICT
-
-Used for business entities.
-
-Examples:
-
-- Categories → Products
-- Suppliers → Products
-- Products → Sale Items
-- Products → Purchase Items
-- Users → Sales
-- Users → Purchases
-
-This prevents accidental deletion of important records.
-
-### CASCADE
-
-Used for transaction detail tables.
-
-Examples:
-
-- Purchases → Purchase_Items
-- Sales → Sale_Items
-
-Deleting a transaction automatically removes its corresponding line items.
+- INSERT
+- SELECT
+- UPDATE
+- DELETE
+- JOIN Queries
+- Search Queries
+- Sorting Queries
+- Aggregate Queries
+- Stock Updates
 
 ---
 
-## Transactions
+## 🗃 Database Design
 
-The schema executes inside a transaction.
+The project follows a **relational database design**.
 
-```sql
-SET autocommit = 0;
+Relationships include:
 
-START TRANSACTION;
+```
+Categories
+     │
+     ▼
+ Products ◄──────────────┐
+     ▲                   │
+     │                   │
+Suppliers                │
+     │                   │
+     ▼                   │
+ Purchases               │
+     │                   │
+     ▼                   │
+Purchase_Items───────────┘
 
-...
 
-COMMIT;
+Customers
+     │
+     ▼
+   Sales
+     │
+     ▼
+ Sale_Items
+     ▲
+     │
+ Products
+
+
+Users
+ ├────────► Purchases
+ └────────► Sales
 ```
 
 ---
 
-## Current Status
+## 🔒 Database Features
 
-### Completed
+The database uses several mechanisms to maintain integrity:
 
-- Database Schema
-- Authentication
-- User Roles
-- Categories CRUD
+- Primary Keys
+- Foreign Keys
+- UNIQUE Constraints
+- CHECK Constraints
+- ENUM Columns
+- Default Values
+- Timestamp Tracking
+- ON UPDATE CASCADE
+- ON DELETE RESTRICT
+- ON DELETE CASCADE (where appropriate)
 
-### Planned
+---
 
-- Suppliers CRUD
-- Customers CRUD
-- Products CRUD
-- Purchases
-- Sales
-- Reports
+## ⚙ Transaction Management
+
+Database write operations are performed using transactions.
+
+Typical workflow:
+
+1. Execute SQL statements
+2. Commit on success
+3. Rollback on failure
+4. Display appropriate error messages
+
+This ensures database consistency even if an operation fails midway.
+
+---
+
+## 📦 Inventory Logic
+
+The application automatically synchronizes stock levels.
+
+### Purchases
+
+```
+Product Quantity += Purchased Quantity
+```
+
+### Sales
+
+```
+Product Quantity -= Sold Quantity
+```
+
+Sales are validated to ensure sufficient stock exists before completing the transaction.
+
+---
+
+## 🛠 Technologies
+
+- MySQL
+- MySQL Connector/Python
+- SQL (DDL & DML)
+
+---
+
+## 📌 Current Status
+
+**Version:** v0.6
+
+Completed modules:
+
+- ✅ Users
+- ✅ Categories
+- ✅ Suppliers
+- ✅ Products
+- ✅ Customers
+- ✅ Purchases
+- ✅ Sales
+
+The SQL layer now fully supports the core functionality of the Inventory Management System and provides the foundation for future modules such as Reports, Dashboard, and Analytics.
