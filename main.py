@@ -5,6 +5,9 @@ from setup import setup_check, setup_wizard, save_config
 from intializing_db import database_exists, create_database, connect_database, tables_exists, tables_create
 from authentication import count_users, create_user, user_login
 from crud import add_product, add_category, view_category, search_categories, update_category, delete_category
+from crud import add_supplier, view_suppliers, search_supplier, update_supplier, delete_supplier, view_products, delete_product, search_products,  update_product
+from crud import add_customer, view_customers, search_customers ,delete_customer, update_customer
+from crud import add_purchase, purchase_history, search_purchase, add_sale, sale_history, search_sale
 
 def clear(): # To clear the screen
     os.system("cls")
@@ -56,16 +59,48 @@ def products_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+            return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing product creation...")
+            sleep(0.5)
+            add_product(connection)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mLoading products...")
+            sleep(0.5)
+            view_products(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_products(connection)
+            continue
+        elif choice == 4:
+            print("\n\033[1;97mUpdating product...")
+            sleep(0.5)
+            update_product(connection)
+            continue
+        elif choice == 5:
+            print("\n\033[1;97mDeleting product...")
+            sleep(0.5)
+            delete_product(connection)
+            continue
+    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
 
 def categories_menu():
-    clear()
-    title("🏷️ CATEGORIES")
-    sleep(0.2)
-    breadcrumb("Home", "Categories")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  Add Category\n{" ":<5}[2] 📋 View Categories\n{" ":<5}[3] 🔍 Search Category\n{" ":<5}[4] ✏️ Update Category\n{" ":<5}[5] 🗑️ Delete Category\n\n{" ":<5}[0] Back\033[0m\n")
     while True:
+        clear()
+        title("🏷️ CATEGORIES")
+        sleep(0.2)
+        breadcrumb("Home", "Categories")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  Add Category\n{" ":<5}[2] 📋 View Categories\n{" ":<5}[3] 🔍 Search Category\n{" ":<5}[4] ✏️ Update Category\n{" ":<5}[5] 🗑️ Delete Category\n\n{" ":<5}[0] Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -74,12 +109,39 @@ def categories_menu():
             sleep(1)
             continue
 
-        if choice >  5 or choice < 0:
+        if choice ==0:
+            return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing category creation...")
+            sleep(0.5)
+            add_category(connection)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mLoading categories...")
+            sleep(0.5)
+            view_category(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_categories(connection)
+            continue
+        elif choice == 4:
+            print("\n\033[1;97mUpdating category...")
+            sleep(0.5)
+            update_category(connection)
+            continue
+        elif choice == 5:
+            print("\n\033[1;97mDeleting category...")
+            sleep(0.5)
+            delete_category(connection)
+            continue
+    
+        else:
             print("\033[1;91mEnter a valid choice\033[0m")
             sleep(1)
             continue
 
-        return choice
 
 def suppliers_menu():
     clear()
@@ -96,13 +158,40 @@ def suppliers_menu():
             print("\033[1;91mEnter a valid input\033[0m")
             sleep(1)
             continue
-
-        if choice >  5 or choice < 0:
+        
+        if choice ==0:
+            return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing supplier addition...")
+            sleep(0.5)
+            add_supplier(connection)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mViewing Suppliers...")
+            sleep(0.5)
+            view_suppliers(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_supplier(connection)
+            continue
+        elif choice == 4:
+            print("\n\033[1;97mUpdating supplier...")
+            sleep(0.5)
+            update_supplier(connection)
+            continue
+        elif choice == 5:
+            print("\n\033[1;97mDeleting supplier...")
+            sleep(0.5)
+            delete_supplier(connection)
+            continue
+    
+        else:
             print("\033[1;91mEnter a valid choice\033[0m")
             sleep(1)
             continue
-
-        return choice
+       
     
 def customers_menu():
     clear()
@@ -125,7 +214,38 @@ def customers_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+            return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing customer addition...")
+            sleep(0.5)
+            add_customer(connection)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mViewing customers...")
+            sleep(0.5)
+            view_customers(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_customers(connection)
+            continue
+        elif choice == 4:
+            print("\n\033[1;97mUpdating customer...")
+            sleep(0.5)
+            update_customer(connection)
+            continue
+        elif choice == 5:
+            print("\n\033[1;97mDeleting customer...")
+            sleep(0.5)
+            delete_customer(connection)
+            continue
+    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
     
 def purchases_menu():
     clear()
@@ -148,7 +268,27 @@ def purchases_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+                return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing purchase addition...")
+            sleep(0.5)
+            add_purchase(connection, user_id)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mViewing purchase history...")
+            sleep(0.5)
+            purchase_history(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_purchase(connection)
+            continue    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
 
 def sales_menu():
     clear()
@@ -171,7 +311,27 @@ def sales_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+                return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing sale addition...")
+            sleep(0.5)
+            add_sale(connection, user_id)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mViewing sale history...")
+            sleep(0.5)
+            sale_history(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_sale(connection)
+            continue    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
 
 def settings_menu():
     clear()
@@ -253,105 +413,28 @@ def administrator_main_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            menu_choice = products_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                print("\n\033[1;97mInitializing product creation...")
-                sleep(0.5)
-                add_product(connection)
-                continue
-
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            products_menu()
+            continue
 
         elif choice == 2:
-            menu_choice = categories_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                print("\n\033[1;97mInitializing category creation...")
-                sleep(0.5)
-                add_category(connection)
-                continue
-            elif menu_choice == 2:
-                print("\n\033[1;97mLoading categories...")
-                sleep(0.5)
-                view_category(connection)
-                continue
-            elif menu_choice == 3:
-                print("\n\033[1;97mLoading search bar...")
-                sleep(0.5)
-                search_categories(connection)
-                continue
-            elif menu_choice == 4:
-                print("\n\033[1;97mUpdating category...")
-                sleep(0.5)
-                update_category(connection)
-                continue
-            else:
-                print("\n\033[1;97mDeleting category...")
-                sleep(0.5)
-                delete_category(connection)
-                continue
+            categories_menu()
+            continue
 
         elif choice == 3:
-            menu_choice = suppliers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            suppliers_menu()
+            continue
 
         elif choice == 4:
-            menu_choice = customers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            customers_menu()
+            continue
         
         elif choice == 5:
-            menu_choice = purchases_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            purchases_menu()
+            continue
             
         elif choice == 6:
-            menu_choice = sales_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            sales_menu()
+            continue
 
         elif choice == 7:
             menu_choice = reports_menu()
@@ -422,101 +505,32 @@ def manager_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            menu_choice = products_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            products_menu()
+            continue
 
         elif choice == 2:
-            menu_choice = categories_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
-
+            categories_menu()
+            continue
+            
         elif choice == 3:
-            menu_choice = suppliers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
-
+            suppliers_menu()
+            continue
+            
         elif choice == 4:
-            menu_choice = customers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            customers_menu()
+            continue
         
         elif choice == 5:
-            menu_choice = purchases_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            purchases_menu()
+            continue
             
         elif choice == 6:
-            menu_choice = sales_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            sales_menu()
+            continue
 
         elif choice == 7:
-            menu_choice = reports_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            reports_menu()
+            continue
 
         elif choice == 8:
             pass
