@@ -31,11 +31,11 @@ CREATE Table IF NOT EXISTS Categories(
 
 CREATE Table IF NOT EXISTS Suppliers(
   supplier_id int AUTO_INCREMENT PRIMARY KEY,
-  company_name varchar(100) NOT NULL,
+  supplier_name varchar(100) NOT NULL,
   contact_person varchar(50),
   phone_number varchar(50) UNIQUE,
-  email varchar(50) UNIQUE,
-  address varchar(150) ,
+  email varchar(255) UNIQUE,
+  address varchar(300) ,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
