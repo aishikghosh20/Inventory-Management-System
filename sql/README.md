@@ -1,3 +1,8 @@
+
+
+https://github.com/user-attachments/assets/1aa2495a-76e1-4cb8-bd87-1a778b0cd827
+
+
 # SQL Folder
 
 This folder contains all the SQL queries used throughout the **Inventory Management System v1.0**. The queries have been separated by functionality to make the project easier to understand, maintain, and debug.
