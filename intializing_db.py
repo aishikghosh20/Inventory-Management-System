@@ -26,7 +26,7 @@ def database_exists(connection):
         print(f"\033[1;91mFailed: {e}\033[0m")
         sleep(1)
         cursor.close()
-        exit_app()
+        exit_app(connection)
 
     return exists
 
@@ -51,7 +51,7 @@ def connect_database(connection):
         print(f"\033[1;91mFailed: {e}\033[0m")
         sleep(1)
         cursor.close()
-        exit_app()
+        exit_app(connection)
     
 
 def tables_exists(connection):
@@ -75,7 +75,7 @@ def tables_exists(connection):
         print(f"\033[1;91mFailed: {e}\033[0m")
         sleep(1)
         cursor.close()
-        exit_app()
+        exit_app(connection)
 
     table_names = [table[0] for table in tables] # makes a list of the table names from the list of the tuples in 'tables'
 
@@ -121,7 +121,7 @@ def tables_create(connection):
                 print(f"\033[1;91mFailed: {e}\033[0m")
                 sleep(1)
                 cursor.close()
-                exit_app()
+                exit_app(connection)
 
             if query.upper().startswith("CREATE TABLE"):
                 words =query.split()
