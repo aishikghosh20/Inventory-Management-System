@@ -75,7 +75,7 @@ def confirm_changes():
 
     print("\n\033[1;97mSave these changes?\033[0m\n")
     print("\033[1;92m[1] ✔ Yes")
-    print("[2] ✖ No\033[0m")
+    print("\033[1;91m[2] ✖ No\033[0m")
 
     sleep(0.5)
 
@@ -908,10 +908,7 @@ def delete_category(connection):
 
 
         elif choice == 2:
-            new_category_name = get_category_name(
-                connection,
-                category_name
-            )
+            new_category_name = get_category_name(connection)
 
             if new_category_name is None:
                 return
@@ -919,8 +916,17 @@ def delete_category(connection):
 
             cursor = connection.cursor(buffered = True)
             try:
-                cursor.execute("SELECT * FROM Categories WHERE LOWER(category_name)=LOWER(%s)",(new_category_name,))
-
+                cursor.execute(
+                                """
+                                SELECT
+                                    category_id,
+                                    category_name,
+                                    description
+                                FROM Categories
+                                WHERE LOWER(category_name)=LOWER(%s)
+                                """,
+                                (new_category_name,)
+                            )
                 categories = cursor.fetchone()
 
             except  Exception as e:
@@ -1512,9 +1518,9 @@ def add_supplier(connection):
                 connection.rollback()
                 return
 
+            moveon = True
             if not supplier_email:
                 print("\033[1;93mContinue with blank email address?\n[1] YES\n[2] NO\033[0m\n")
-                moveon = True
                 while True:
                     try:
                         choice = int(input("\033[1;93mChoice: \033[0m"))
@@ -1536,6 +1542,10 @@ def add_supplier(connection):
                     break
             if not(moveon):
                 continue
+
+            # Blank email is allowed
+            if supplier_email == "":
+                break
 
             if not re.fullmatch(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", supplier_email):
                 print("\033[1;91m✕ Please enter a valid email address\033[0m")
@@ -1577,9 +1587,9 @@ def add_supplier(connection):
                 connection.rollback()
                 return
             
+            moveon = True
             if not address:
                 print("\033[1;93mContinue with blank address?\n[1] YES\n[2] NO\033[0m\n")
-                moveon = True
                 while True:
                     try:
                         choice = int(input("\033[1;93mChoice: \033[0m"))
