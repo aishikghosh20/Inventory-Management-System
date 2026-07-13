@@ -7,7 +7,9 @@ from authentication import count_users, create_user, user_login
 from crud import add_product, add_category, view_category, search_categories, update_category, delete_category
 from crud import add_supplier, view_suppliers, search_supplier, update_supplier, delete_supplier, view_products, delete_product, search_products,  update_product
 from crud import add_customer, view_customers, search_customers ,delete_customer, update_customer
-from crud import add_purchase, purchase_history, search_purchase, add_sale, sale_history, search_sale
+from crud import add_purchase, purchase_history, search_purchase, add_sale, sales_history, search_sale
+from reports import inventory_report, sales_report, purchase_report, low_stock_report, profit_report
+from settings import change_password, manage_users, manage_roles, db_info
 
 def clear(): # To clear the screen
     os.system("cls")
@@ -38,14 +40,15 @@ def breadcrumb(*paths):
     print("\033[1;96m📍 " + ">".join(paths) + "\033[0m")
 
 
-def products_menu():
-    clear()
-    title("📦 PRODUCTS")
-    sleep(0.2)
-    breadcrumb("Home", "Products")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  Add Product\n{" ":<5}[2] 📋 View Products\n{" ":<5}[3] 🔍 Search Product\n{" ":<5}[4] ✏️ Update Product\n{" ":<5}[5] 🗑️ Delete Product\n\n{" ":<5}[0] Back\033[0m\n")
+def products_menu(connection):
     while True:
+        clear()
+        title("📦 PRODUCTS")
+        sleep(0.2)
+        breadcrumb("Home", "Products")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  Add Product\n{" ":<5}[2] 📋 View Products\n{" ":<5}[3] 🔍 Search Product\n{" ":<5}[4] ✏️ Update Product\n{" ":<5}[5] 🗑️ Delete Product\n\n{" ":<5}[0] Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -92,7 +95,7 @@ def products_menu():
             sleep(1)
             continue
 
-def categories_menu():
+def categories_menu(connection):
     while True:
         clear()
         title("🏷️ CATEGORIES")
@@ -142,15 +145,15 @@ def categories_menu():
             sleep(1)
             continue
 
-
-def suppliers_menu():
-    clear()
-    title("🚚 SUPPLIERS")
-    sleep(0.2)
-    breadcrumb("Home", "Suppliers")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  Add Supplier\n{" ":<5}[2] 📋 View Suppliers\n{" ":<5}[3] 🔍 Search Supplier\n{" ":<5}[4] ✏️ Update Supplier\n{" ":<5}[5] 🗑️ Delete Supplier\n\n{" ":<5}[0] Back\033[0m\n")
+def suppliers_menu(connection):
     while True:
+        clear()
+        title("🚚 SUPPLIERS")
+        sleep(0.2)
+        breadcrumb("Home", "Suppliers")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  Add Supplier\n{" ":<5}[2] 📋 View Suppliers\n{" ":<5}[3] 🔍 Search Supplier\n{" ":<5}[4] ✏️ Update Supplier\n{" ":<5}[5] 🗑️ Delete Supplier\n\n{" ":<5}[0] Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -167,7 +170,7 @@ def suppliers_menu():
             add_supplier(connection)
             continue
         elif choice == 2:
-            print("\n\033[1;97mViewing Suppliers...")
+            print("\n\033[1;97mLoading Suppliers...")
             sleep(0.5)
             view_suppliers(connection)
             continue
@@ -191,16 +194,16 @@ def suppliers_menu():
             print("\033[1;91mEnter a valid choice\033[0m")
             sleep(1)
             continue
-       
-    
-def customers_menu():
-    clear()
-    title("👥 CUSTOMERS")
-    sleep(0.2)
-    breadcrumb("Home", "Customers")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  Add Customer\n{" ":<5}[2] 📋 View Customers\n{" ":<5}[3] 🔍 Search Customer\n{" ":<5}[4] ✏️ Update Customer\n{" ":<5}[5] 🗑️ Delete Customer\n\n{" ":<5}[0] Back\033[0m\n")
+          
+def customers_menu(connection):
     while True:
+        clear()
+        title("👥 CUSTOMERS")
+        sleep(0.2)
+        breadcrumb("Home", "Customers")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  Add Customer\n{" ":<5}[2] 📋 View Customers\n{" ":<5}[3] 🔍 Search Customer\n{" ":<5}[4] ✏️ Update Customer\n{" ":<5}[5] 🗑️ Delete Customer\n\n{" ":<5}[0] Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -247,14 +250,15 @@ def customers_menu():
             sleep(1)
             continue
     
-def purchases_menu():
-    clear()
-    title("🛒 PURCHASES")
-    sleep(0.2)
-    breadcrumb("Home", "Purchases")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  New Purchase\n{" ":<5}[2] 📋 Purchase History\n{" ":<5}[3] 🔍 Search Purchase\n\n{" ":<5}[0] ← Back\033[0m\n")
+def purchases_menu(connection, user_id):
     while True:
+        clear()
+        title("🛒 PURCHASES")
+        sleep(0.2)
+        breadcrumb("Home", "Purchases")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  New Purchase\n{" ":<5}[2] 📋 Purchase History\n{" ":<5}[3] 🔍 Search Purchase\n\n{" ":<5}[0] ← Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -290,14 +294,15 @@ def purchases_menu():
             sleep(1)
             continue
 
-def sales_menu():
-    clear()
-    title("💰 SALES")
-    sleep(0.2)
-    breadcrumb("Home", "Sales")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] ➕  New Sale\n{" ":<5}[2] 📋 Sales History\n{" ":<5}[3] 🔍 Search Sale\n\n{" ":<5}[0] Back\033[0m\n")
+def sales_menu(connection, user_id):
     while True:
+        clear()
+        title("💰 SALES")
+        sleep(0.2)
+        breadcrumb("Home", "Sales")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] ➕  New Sale\n{" ":<5}[2] 📋 Sales History\n{" ":<5}[3] 🔍 Search Sale\n\n{" ":<5}[0] Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -321,7 +326,7 @@ def sales_menu():
         elif choice == 2:
             print("\n\033[1;97mViewing sale history...")
             sleep(0.5)
-            sale_history(connection)
+            sales_history(connection)
             continue
         elif choice == 3:
             print("\n\033[1;97mLoading search bar...")
@@ -333,14 +338,15 @@ def sales_menu():
             sleep(1)
             continue
 
-def settings_menu():
-    clear()
-    title("⚙️  SETTINGS")
-    sleep(0.2)
-    breadcrumb("Home", "Settings")
-    sleep(0.5)
-    print(f"{" ":<5}\033[1;97m[1] 🔑 Change Password\n{" ":<5}[2] 👤 User Management\n{" ":<5}[3] 🛡️ Role Management\n{" ":<5}[4] 🗄️ Database Information\n{" ":<5}\n\n{" ":<5}[0] ← Back\033[0m\n")
+def settings_menu(connection, user_id, username):
     while True:
+        clear()
+        title("⚙️  SETTINGS")
+        sleep(0.2)
+        breadcrumb("Home", "Settings")
+        sleep(0.5)
+        print(f"{" ":<5}\033[1;97m[1] 🔑 Change Password\n{" ":<5}[2] 👤 User Management\n{" ":<5}[3] 🛡️ Role Management\n{" ":<5}[4] 🗄️ Database Information\n{" ":<5}\n\n{" ":<5}[0] ← Back\033[0m\n")
+        
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -354,17 +360,43 @@ def settings_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+                return
+        elif choice == 1:
+            print("\n\033[1;97mInitializing password setup...")
+            sleep(0.5)
+            change_password(connection,user_id,username)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mInitializing user management...")
+            sleep(0.5)
+            manage_users(connection, user_id)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mInitializing roles management...")
+            sleep(0.5)
+            manage_roles(connection)
+            continue    
+        elif choice == 4:
+            print("\n\033[1;97mViewing database information...")
+            sleep(0.5)
+            db_info(connection)
+            continue    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
     
 def reports_menu():
-    clear()
-    title("📊 Reports")
-    sleep(0.2)
-    breadcrumb("Home", "Reports")
-    sleep(0.5)
+     while True:
+        clear()
+        title("📊 Reports")
+        sleep(0.2)
+        breadcrumb("Home", "Reports")
+        sleep(0.5)
 
-    print(f"{" ":<5}\033[1;97m[1] 📈 Inventory Report\n{" ":<5}[2] 💹 Sales Report\n{" ":<5}[3] 🧾 Purchase Report\n{" ":<5}[4] 💵 Profit Report\n{" ":<5}[5] 📉 Low Stock Reports\n\n{" ":<5}[0] Back\033[0m\n")
-    while True:
+        print(f"{" ":<5}\033[1;97m[1] 📈 Inventory Report\n{" ":<5}[2] 💹 Sales Report\n{" ":<5}[3] 🧾 Purchase Report\n{" ":<5}[4] 💵 Profit Report\n{" ":<5}[5] 📉 Low Stock Reports\n\n{" ":<5}[0] Back\033[0m\n")
+    
         try:
             choice = int(input("\033[1;93mChoice: \033[0m"))
 
@@ -378,7 +410,37 @@ def reports_menu():
             sleep(1)
             continue
 
-        return choice
+        if choice ==0:
+                return
+        elif choice == 1:
+            print("\n\033[1;97mLoading inventory report...")
+            sleep(0.5)
+            inventory_report(connection)
+            continue
+        elif choice == 2:
+            print("\n\033[1;97mLoading sales report...")
+            sleep(0.5)
+            sales_report(connection)
+            continue
+        elif choice == 3:
+            print("\n\033[1;97mLoading purchase report...")
+            sleep(0.5)
+            purchase_report(connection)
+            continue    
+        elif choice == 4:
+            print("\n\033[1;97mLoading profit report...")
+            sleep(0.5)
+            profit_report(connection)
+            continue    
+        elif choice == 5:
+            print("\n\033[1;97mLoading low stock reports...")
+            sleep(0.5)
+            low_stock_report(connection)
+            continue    
+        else:
+            print("\033[1;91mEnter a valid choice\033[0m")
+            sleep(1)
+            continue
 
 def administrator_main_menu(connection, first_name, last_name, role):
     while True:
@@ -413,56 +475,36 @@ def administrator_main_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            products_menu()
+            products_menu(connection)
             continue
 
         elif choice == 2:
-            categories_menu()
+            categories_menu(connection)
             continue
 
         elif choice == 3:
-            suppliers_menu()
+            suppliers_menu(connection)
             continue
 
         elif choice == 4:
-            customers_menu()
+            customers_menu(connection)
             continue
         
         elif choice == 5:
-            purchases_menu()
+            purchases_menu(connection, user_id)
             continue
             
         elif choice == 6:
-            sales_menu()
+            sales_menu(connection, user_id)
             continue
 
         elif choice == 7:
-            menu_choice = reports_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            reports_menu()
+            continue
 
         elif choice == 8:
-            menu_choice = settings_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            else:
-                pass
+            settings_menu(connection, user_id, username)
+            continue
 
         elif choice == 0:
             exit_app(connection)
@@ -505,27 +547,27 @@ def manager_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            products_menu()
+            products_menu(connection)
             continue
 
         elif choice == 2:
-            categories_menu()
+            categories_menu(connection)
             continue
             
         elif choice == 3:
-            suppliers_menu()
+            suppliers_menu(connection)
             continue
             
         elif choice == 4:
-            customers_menu()
+            customers_menu(connection)
             continue
         
         elif choice == 5:
-            purchases_menu()
+            purchases_menu(connection, user_id)
             continue
             
         elif choice == 6:
-            sales_menu()
+            sales_menu(connection, user_id)
             continue
 
         elif choice == 7:
@@ -533,7 +575,10 @@ def manager_menu(connection, first_name, last_name, role):
             continue
 
         elif choice == 8:
-            pass
+            print("\n\033[1;97mInitializing password setup...")
+            sleep(0.5)
+            change_password(connection,user_id,username)
+            continue
 
         elif choice == 0:
             exit_app(connection)
@@ -576,69 +621,38 @@ def inventory_staff_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            menu_choice = products_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            products_menu(connection)
+            continue
 
         elif choice == 2:
-            menu_choice = categories_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            categories_menu(connection)
+            continue
 
         elif choice == 3:
-            menu_choice = suppliers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            suppliers_menu(connection)
+            continue
         
         elif choice == 4:
-            menu_choice = purchases_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            purchases_menu(connection, user_id)
+            continue
             
         elif choice == 5:
-            pass
+            print("\n\033[1;97mLoading inventory report...")
+            sleep(0.5)
+            inventory_report(connection)
+            continue
 
         elif choice == 6:
-            pass
+            print("\n\033[1;97mLoading low stock reports...")
+            sleep(0.5)
+            low_stock_report(connection)
+            continue 
 
         elif choice == 7:
-            pass
+            print("\n\033[1;97mInitializing password setup...")
+            sleep(0.5)
+            change_password(connection,user_id,username)
+            continue
 
         elif choice == 0:
             exit_app(connection)
@@ -681,33 +695,44 @@ def sales_staff_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            pass
+            print("\n\033[1;97mInitializing sale addition...")
+            sleep(0.5)
+            add_sale(connection, user_id)
+            continue
 
         elif choice == 2:
-            pass
+            print("\n\033[1;97mViewing sale history...")
+            sleep(0.5)
+            sales_history(connection)
+            continue
 
         elif choice == 3:
-            pass
+            print("\n\033[1;97mLoading search bar...")
+            sleep(0.5)
+            search_sale(connection)
+            continue  
         
         elif choice == 4:
-            menu_choice = customers_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            else:
-                pass
+            customers_menu(connection)
+            continue
             
         elif choice == 5:
-            pass
+            print("\n\033[1;97mLoading products...")
+            sleep(0.5)
+            view_products(connection)
+            continue
 
         elif choice == 6:
-            pass
+            print("\n\033[1;97mLoading sales report...")
+            sleep(0.5)
+            sales_report(connection)
+            continue
 
         elif choice == 7:
-            pass
+            print("\n\033[1;97mInitializing password setup...")
+            sleep(0.5)
+            change_password(connection,user_id,username)
+            continue
 
         elif choice == 0:
             exit_app(connection)
@@ -747,31 +772,32 @@ def viewer_menu(connection, first_name, last_name, role):
             continue
 
         if choice == 1:
-            pass
+            print("\n\033[1;97mLoading products...")
+            sleep(0.5)
+            view_products(connection)
+            continue
 
         elif choice == 2:
-            pass
+            print("\n\033[1;97mLoading categories...")
+            sleep(0.5)
+            view_category(connection)
+            continue
 
         elif choice == 3:
-            pass
+            print("\n\033[1;97mLoading Suppliers...")
+            sleep(0.5)
+            view_suppliers(connection)
+            continue
         
         elif choice == 4:
-            menu_choice = reports_menu()
-            if menu_choice == 0:
-                continue
-            elif menu_choice == 1:
-                pass
-            elif menu_choice == 2:
-                pass
-            elif menu_choice == 3:
-                pass
-            elif menu_choice == 4:
-                pass
-            else:
-                pass
+            reports_menu()
+            continue
             
         elif choice == 5:
-            pass
+            print("\n\033[1;97mInitializing password setup...")
+            sleep(0.5)
+            change_password(connection,user_id,username)
+            continue
 
 
         elif choice == 0:
