@@ -2,9 +2,10 @@ from pathlib import Path
 from time import sleep
 from getpass import getpass
 import sys
+from config import BASE_DIR
 
 def setup_check():
-    env_file = Path(".env")
+    env_file = Path(BASE_DIR/".env")
 
     if env_file.exists():
         return True
