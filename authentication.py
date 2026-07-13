@@ -15,7 +15,7 @@ def count_users(connection):
         print(f"\033[1;91mFailed: {e}\033[0m")
         sleep(1)
         cursor.close()
-        exit_app()
+        exit_app(connection)
 
     count = result[0] # to get the actual result from the tuple
     return count
@@ -44,7 +44,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not username:
             print("\033[1;91m❌ Username cannot be empty\033[0m\n")
@@ -71,7 +71,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         finally:
             cursor.close()
@@ -85,7 +85,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not first_name:
             print("\033[1;91m❌ First name cannot be empty\033[0m\n")
@@ -103,7 +103,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not last_name:
             print("\033[1;91m❌ Last name cannot be empty\033[0m\n")
@@ -121,7 +121,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not email:
             print("\033[1;91m❌ Email cannot be empty\033[0m\n")
@@ -148,7 +148,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         finally:
             cursor.close()
@@ -162,7 +162,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not phone_number:
             print("\033[1;91m❌ Phone number cannot be empty\033[0m\n")
@@ -196,7 +196,7 @@ def create_user(connection, count):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         finally:
             cursor.close()
@@ -204,19 +204,53 @@ def create_user(connection, count):
 
     while True:
         try:
-            password = input("\033[1;93mPASSWORD: \033[0m").strip()
+            print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+            while True:
+                try:
+                    choice = int(input("\033[1;93mChoice: \033[0m"))
+
+                except ValueError:
+                    print("\033[1;91mEnter a valid input\033[0m")
+                    sleep(1)
+                    continue
+
+                if choice == 1:
+                    import pwinput
+                    while True:
+                        password = pwinput.pwinput(prompt="\033[1;96mPassword: \033[0m", mask= "*")
+
+                        if password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                elif choice == 2:
+                    while True:
+                        password = input("\033[1;96mPassword: \033[0m").strip()
+
+                        if password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                else:
+                    print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                    sleep(1)
+                    continue
+
+                if password:
+                    break
+        
 
         except  Exception as e:
             print(f"\033[1;91mFailed to continue with the application\n\033[1;93mReason: {e}\033[0m")
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
-        if not password:
-            print("\033[1;91m❌ Password cannot be empty\033[0m\n")
-            sleep(1)
-            continue
 
         if len(password) < 8:
             print("\033[1;91m❌ Password must be atleast 8 characters long\033[0m\n")
@@ -224,19 +258,52 @@ def create_user(connection, count):
             continue
 
         try:
-            confirm_password = input("\033[1;93mCONFIRM PASSWORD: \033[0m").strip()
+            print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+            while True:
+                try:
+                    choice = int(input("\033[1;93mChoice: \033[0m"))
+
+                except ValueError:
+                    print("\033[1;91mEnter a valid input\033[0m")
+                    sleep(1)
+                    continue
+
+                if choice == 1:
+                    import pwinput
+                    while True:
+                        confirm_password = pwinput.pwinput(prompt="\033[1;96mConfirm Password: \033[0m", mask= "*")
+
+                        if confirm_password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                elif choice == 2:
+                    while True:
+                        confirm_password = input("\033[1;96mConfirm Password: \033[0m").strip()
+
+                        if confirm_password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                else:
+                    print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                    sleep(1)
+                    continue
+
+                if confirm_password:
+                    break
 
         except  Exception as e:
             print(f"\033[1;91mFailed to continue with the application\n\033[1;93mReason: {e}\033[0m")
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
-        if not confirm_password:
-            print("\033[1;91m❌ Password cannot be empty\033[0m\n")
-            sleep(1)
-            continue
 
         if  confirm_password != password:
             print("\033[1;91m❌ Passwords do not match\033[0m\n")
@@ -325,7 +392,7 @@ def create_user(connection, count):
         sleep(0.5)
         print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
         sleep(1)
-        exit_app()
+        exit_app(connection)
 
     finally:
         cursor.close()
@@ -351,7 +418,7 @@ def user_login(connection):
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not username:
             print("\033[1;91m❌ Username cannot be empty\033[0m\n")
@@ -368,14 +435,51 @@ def user_login(connection):
 
     while True:
         try:
-            password = input("\033[1;93mPASSWORD: \033[0m").strip()
+            print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+            while True:
+                try:
+                    choice = int(input("\033[1;93mChoice: \033[0m"))
+
+                except ValueError:
+                    print("\033[1;91mEnter a valid input\033[0m")
+                    sleep(1)
+                    continue
+
+                if choice == 1:
+                    import pwinput
+                    while True:
+                        password = pwinput.pwinput(prompt="\033[1;96mPassword: \033[0m", mask= "*")
+
+                        if password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                elif choice == 2:
+                    while True:
+                        password = input("\033[1;96mPassword: \033[0m").strip()
+
+                        if password:
+                            break
+
+                        print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                        sleep(0.5)
+
+                else:
+                    print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                    sleep(1)
+                    continue
+
+                if password:
+                    break
 
         except  Exception as e:
             print(f"\033[1;91mFailed to continue with the application\n\033[1;93mReason: {e}\033[0m")
             sleep(0.5)
             print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
             sleep(1)
-            exit_app()
+            exit_app(connection)
 
         if not password:
             print("\033[1;91m❌ Password cannot be empty\033[0m\n")
@@ -395,7 +499,7 @@ def user_login(connection):
         sleep(0.5)
         print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
         sleep(1)
-        exit_app()
+        exit_app(connection)
 
     finally:
         cursor.close()
