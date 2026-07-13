@@ -16,7 +16,8 @@ env_path = BASE_DIR / ".env" # Path to .env
 load_dotenv(env_path)
 
 DB_HOST = os.getenv("DB_HOST")  
-DB_PORT = int(os.getenv("DB_PORT"))
+port = os.getenv("DB_PORT")
+DB_PORT = int(port) if port else None
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
