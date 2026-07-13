@@ -1,200 +1,541 @@
-Smart Inventory Management System
+# 📦 Inventory Management System v1.0
 
-Overview
+<p align="center">
 
-The Smart Inventory Management System is a Python and MySQL-based application designed to help businesses efficiently manage inventory, suppliers, customers, purchases, and sales through a modular command-line interface.
+![Python](https://img.shields.io/badge/Python-3.14-blue?logo=python)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange?logo=mysql)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Stable-success)
+![Version](https://img.shields.io/badge/Version-1.0-blue)
 
-This project is being developed as part of my software engineering portfolio to demonstrate database design, SQL, Python programming, and clean software architecture.
+</p>
 
 ---
+
+# Overview
+
+Inventory Management System is a terminal-based desktop application developed in Python using MySQL as the backend database. It provides businesses with an efficient way to manage products, suppliers, customers, purchases, sales, inventory, reports, and user accounts through a secure authentication system.
+
+The application has been designed with a modular architecture, emphasizing code organization, maintainability, and scalability. It supports role-based access control, complete CRUD operations, transaction-safe purchase and sales processing, and detailed business reports.
+
+This project serves as both a practical inventory management solution and a demonstration of database design, Python programming, and software engineering principles.
+
+---
+
+# Features
+
+## Authentication
+
+- Secure login system
+- Password hashing using bcrypt
+- Password visibility toggle
+- Administrator account creation
+- Role-Based Access Control (RBAC)
+- Secure password change
+- Username validation
+
+---
+
+## Category Management
+
+- Add Categories
+- View Categories
+- Search Categories
+  - Search by ID
+  - Search by Name
+- Update Categories
+- Delete Categories
+- Duplicate validation
+
+---
+
+## Product Management
+
+- Add Products
+- View Products
+- Search Products
+- Update Products
+- Delete Products
+
+Validation includes
+
+- Duplicate products
+- Invalid prices
+- Invalid stock quantities
+- Category validation
+
+---
+
+## Supplier Management
+
+- Add Suppliers
+- View Suppliers
+- Search Suppliers
+- Update Suppliers
+- Delete Suppliers
+
+Validation
+
+- Duplicate phone numbers
+- Duplicate email addresses
+- Email validation
+- Phone validation
+
+Optional
+
+- Email
+- Address
+
+---
+
+## Customer Management
+
+- Add Customers
+- View Customers
+- Search Customers
+- Update Customers
+- Delete Customers
+
+Validation
+
+- Duplicate phone numbers
+- Duplicate emails
+- Email validation
+- Phone validation
+
+Optional
+
+- Email
+- Address
+
+---
+
+## Purchase Management
+
+- Add Purchase
+- Purchase History
+- Search Purchase
+
+Supports
+
+- Multiple products per purchase
+- Automatic stock increment
+- Purchase totals
+- Purchase item history
+- Transaction support
+
+---
+
+## Sales Management
+
+- Add Sale
+- Sales History
+- Search Sale
+
+Supports
+
+- Multiple products per sale
+- Automatic stock deduction
+- Sales totals
+- Sales item history
+- Transaction support
+
+---
+
+## Reports
+
+Generate
+
+- Inventory Report
+- Sales Report
+- Purchase Report
+- Profit Report
+- Low Stock Report
+
+Reports include
+
+- Inventory valuation
+- Daily sales
+- Monthly sales
+- Daily purchases
+- Monthly purchases
+- Revenue
+- Cost
+- Profit
+- Low stock products
+
+---
+
+## Settings
+
+### Password Management
+
+- Change Password
+- Password verification
+
+### User Management
+
+- Add Users
+- View Users
+- Search Users
+- Update Users
+- Delete Users
+
+### Role Management
+
+- View roles
+- Users by role
+- Administrator management
+
+### Database Information
+
+Displays
+
+- Database Name
+- MySQL Version
+- Total Users
+- Total Categories
+- Total Products
+- Total Suppliers
+- Total Customers
+- Total Purchases
+- Total Sales
+- Inventory Value
+
+---
+
+# Technologies Used
+
+- Python 3.14
+- MySQL
+- mysql-connector-python
+- bcrypt
+- python-dotenv
+- pwinput
+- PyInstaller
+
+---
+
+# Project Structure
+
+```
+Inventory Management System
+│
+├── assets/
+│   └── inventory.ico
+│
+├── docs/
+│   └── build_log/
+│
+├── sql/
+│   ├── schema.sql
+│   ├── crud.sql
+│   ├── reports.sql
+│   ├── settings.sql
+│   ├── database_startup.sql
+│   ├── user_authentication.sql
+│   └── README.md
+│
+├── authentication.py
+├── crud.py
+├── reports.py
+├── settings.py
+├── database.py
+├── initializing_db.py
+├── setup.py
+├── config.py
+├── main.py
+│
+├── LICENSE
+└── README.md
+```
+
+---
+
+# Database Design
+
+The project uses a relational MySQL database.
+
+Tables
+
+- Users
+- Categories
+- Products
+- Suppliers
+- Customers
+- Purchases
+- Purchase_Items
+- Sales
+- Sale_Items
 
 Features
 
-- User Authentication
-- Product Management (CRUD)
-- Category Management
-- Supplier Management
-- Customer Management
-- Purchase Management
-- Sales Management
-- Inventory Tracking
-- Low Stock Alerts
-- Product Search & Filtering
-- Reports & Analytics
-
----
-
-Tech Stack
-
-- Python
-- MySQL
-- MySQL Connector for Python
-- Python Dotenv
-- Git & GitHub
-- Visual Studio Code
-
----
-
-Project Structure
-
-Smart-Inventory-Management-System/
-│
-├── .venv/
-├── modules/
-├── sql/
-├── docs/
-├── screenshots/
-├── .env.example
-├── config.py
-├── database.py
-├── main.py
-├── requirements.txt
-├── README.md
-└── .gitignore
-
-Folder Description
-
-Folder / File| Description
-".venv/"| Virtual environment (not uploaded to GitHub)
-"modules/"| Contains all Python modules (Products, Sales, Suppliers, etc.)
-"sql/"| SQL scripts including schema, sample data, procedures, triggers and views
-"docs/"| ER diagrams and project documentation
-"screenshots/"| Images used in the README
-".env.example"| Example environment configuration
-"config.py"| Loads environment variables
-"database.py"| Handles the MySQL database connection
-"main.py"| Entry point of the application
-
----
-
-Database Concepts
-
-- Relational Database Design
 - Primary Keys
 - Foreign Keys
 - Constraints
-- CRUD Operations
-- JOINs
-- Aggregate Functions
-- GROUP BY
-- HAVING
-- Subqueries
-- Views
-- Stored Procedures
-- Triggers
+- Transactions
+- ENUM Fields
+- Default Values
 
 ---
 
-Installation
+# Installation
 
-1. Clone the Repository
+## Method 1 — Using the Pre-built Executable (Recommended)
 
-git clone <repository-url>
-cd Smart-Inventory-Management-System
+### Step 1
+
+Download the latest release from the GitHub Releases page.
+
+Extract the ZIP archive.
 
 ---
 
-2. Create a Virtual Environment
+### Step 2
 
+Ensure **MySQL Server 8.0 or later** is installed and running.
+
+If you do not have MySQL installed:
+
+Download MySQL Community Server
+
+https://dev.mysql.com/downloads/mysql/
+
+or install MySQL Installer for Windows
+
+https://dev.mysql.com/downloads/installer/
+
+During installation:
+
+- Install MySQL Server
+- Install MySQL Workbench (optional but recommended)
+- Remember the root password
+- Keep the default port (3306)
+
+After installation, verify that the MySQL service is running.
+
+---
+
+### Step 3
+
+Run
+
+```
+Inventory Management System.exe
+```
+
+On first launch the application automatically starts the setup wizard.
+
+You will be asked for
+
+- MySQL Host
+- MySQL Port
+- Username
+- Password
+- Database Name
+
+Example
+
+```
+Host:
+localhost
+
+Port:
+3306
+
+Username:
+root
+
+Password:
+********
+
+Database:
+inventory_management
+```
+
+The application automatically
+
+- Creates the configuration file
+- Connects to MySQL
+- Creates the database
+- Creates all required tables
+- Starts the login system
+
+No manual SQL execution is required.
+
+---
+
+# Method 2 — Run From Source Code
+
+Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/Inventory-Management-System.git
+```
+
+Open the project
+
+```bash
+cd Inventory-Management-System
+```
+
+Create a virtual environment
+
+```bash
 python -m venv .venv
+```
 
-Activate the Environment
+Activate it
 
-Windows (Command Prompt)
+Windows
 
+```bash
 .venv\Scripts\activate
+```
 
-Windows (PowerShell)
+Install dependencies
 
-.\.venv\Scripts\Activate.ps1
-
----
-
-3. Install Dependencies
-
+```bash
 pip install -r requirements.txt
+```
 
----
+Run
 
-4. Configure Environment Variables
-
-Copy
-
-.env.example
-
-to
-
-.env
-
-Then edit the ".env" file with your own MySQL credentials.
-
-Example:
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=inventory_management
-
-«Never commit your ".env" file to GitHub.»
-
----
-
-5. Create the Database
-
-Run the SQL scripts located inside the "sql/" folder.
-
-1. "schema.sql" – Creates all database tables.
-2. "sample_data.sql" – Inserts sample data (optional).
-
----
-
-6. Run the Application
-
+```bash
 python main.py
+```
+
+The setup wizard will launch automatically on first startup.
 
 ---
 
-Requirements
+# First Login
 
-Install all required packages with:
+During the initial setup, the application will prompt you to create the first administrator account.
 
-pip install -r requirements.txt
+This administrator has full access to all features including:
 
-Current dependencies:
+- User Management
+- Role Management
+- Reports
+- Settings
 
-- mysql-connector-python
+---
+
+# Security
+
+Implemented
+
+- Password hashing using bcrypt
+- Parameterized SQL queries
+- SQL Injection protection
+- Role-Based Access Control
+- Duplicate validation
+- Foreign Key Constraints
+- Transaction support
+
+---
+
+# Reports
+
+The application can generate
+
+- Inventory Reports
+- Sales Reports
+- Purchase Reports
+- Profit Reports
+- Low Stock Reports
+
+---
+
+# SQL Documentation
+
+All SQL queries used by the application have been documented.
+
+```
+sql/
+│
+├── schema.sql
+├── database_startup.sql
+├── user_authentication.sql
+├── crud.sql
+├── reports.sql
+├── settings.sql
+└── README.md
+```
+
+This makes it easy to study the database layer independently from the Python implementation.
+
+---
+
+# Future Improvements
+
+Planned for Version 1.1
+
+- PDF Export
+- Excel Export
+- Backup & Restore
+- Dashboard Improvements
+- Search Filters
+- Graphical Charts
+- Advanced Reports
+- Performance Optimizations
+
+---
+
+# Screenshots
+
+Screenshots will be added in future releases.
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+See the LICENSE file for details.
+
+---
+
+# Acknowledgements
+
+- Python Software Foundation
+- MySQL
+- PyInstaller
+- bcrypt
 - python-dotenv
-- tabulate
-- colorama
 
 ---
 
-Future Improvements
+# Developer
 
-- Password Hashing
-- CSV Export
-- Audit Logging
-- Enhanced Terminal UI
-- Desktop GUI using PySide6
-- Flask Web Application
+**Aishik Ghosh**
 
----
+GitHub:
 
-Project Status
-
-🚧 Currently Under Development
-
-This project is being developed in phases, beginning with database planning and SQL implementation before integrating Python modules.
+https://github.com/aishikghosh20
 
 ---
 
-License
+# Icon Attribution
 
-This project is licensed under the Apache License 2.0.
+The application icon was created by **Freepik** and obtained from **Flaticon**.
 
----
+Icon Page:
+https://www.flaticon.com/free-icon/monitoring_12062370?term=inventory+management&related_id=12062370
 
-Author
+Flaticon:
+https://www.flaticon.com/
 
-Aishik Ghosh
+The icon is used under the applicable Flaticon license.
+
+
+# Version
+
+Current Release
+
+**Inventory Management System v1.0**
+
+Stable Release
+
+July 2026
