@@ -1,10 +1,173 @@
-# 🗄️ SQL
+# SQL Folder
 
-This folder contains all SQL scripts used by the **Inventory Management System**. The scripts are organized according to their purpose, making it easier to understand the database structure, initialization process, authentication workflow, and CRUD operations.
+This folder contains all the SQL queries used throughout the **Inventory Management System v1.0**. The queries have been separated by functionality to make the project easier to understand, maintain, and debug.
 
 ---
 
-## 📂 Folder Structure
+## 📂 Files
+
+### 📄 schema.sql
+**Purpose:**
+Contains the complete database structure for the project.
+
+**Includes:**
+- Database creation
+- All table definitions
+- Primary Keys
+- Foreign Keys
+- Constraints
+- Default values
+- ENUM definitions
+- CHECK constraints
+
+**Used During**
+- First-time project setup
+
+---
+
+### 📄 database_startup.sql
+**Purpose:**
+Contains all SQL queries executed when the application starts.
+
+**Includes:**
+- Database existence checks
+- Database selection
+- Table existence checks
+- Initial setup queries
+
+**Used During**
+- Application startup
+- Initial database initialization
+
+---
+
+### 📄 user_authentication.sql
+**Purpose:**
+Contains all SQL queries related to authentication and login.
+
+**Includes:**
+- User login
+- Password verification
+- Password hashing support
+- Current user retrieval
+- Administrator account creation
+- User validation
+
+**Related Python Module**
+- authentication.py
+
+---
+
+### 📄 crud.sql
+**Purpose:**
+Contains every CRUD (Create, Read, Update, Delete) query used throughout the Inventory Management System.
+
+**Includes**
+
+#### Categories
+- Add Category
+- View Categories
+- Search Category
+- Update Category
+- Delete Category
+
+#### Products
+- Add Product
+- View Products
+- Search Product
+- Update Product
+- Delete Product
+- Stock Update
+
+#### Suppliers
+- Add Supplier
+- View Suppliers
+- Search Supplier
+- Update Supplier
+- Delete Supplier
+
+#### Customers
+- Add Customer
+- View Customers
+- Search Customer
+- Update Customer
+- Delete Customer
+
+#### Purchases
+- Add Purchase
+- Purchase History
+- Search Purchase
+- Purchase Items
+- Stock Increase
+
+#### Sales
+- Add Sale
+- Sales History
+- Search Sale
+- Sale Items
+- Stock Reduction
+
+---
+
+### 📄 reports.sql
+**Purpose:**
+Contains every SQL query used to generate reports.
+
+**Includes**
+
+- Inventory Report
+- Sales Report
+- Purchase Report
+- Profit Report
+- Low Stock Report
+
+The queries calculate totals, averages, revenue, costs, profits, inventory values and low-stock information.
+
+**Related Python Module**
+- reports.py
+
+---
+
+### 📄 settings.sql
+**Purpose:**
+Contains all SQL queries related to system administration and settings.
+
+**Includes**
+
+### User Management
+- Add User
+- View Users
+- Search User
+- Update User
+- Delete User
+
+### Password Management
+- Verify Current Password
+- Change Password
+
+### Role Management
+- View Roles
+- Users By Role
+- Administrator Count
+
+### Database Information
+- Database Name
+- MySQL Version
+- Total Users
+- Total Products
+- Total Categories
+- Total Suppliers
+- Total Customers
+- Total Purchases
+- Total Sales
+- Inventory Value
+
+**Related Python Module**
+- settings.py
+
+---
+
+# Folder Structure
 
 ```
 SQL/
@@ -13,216 +176,28 @@ SQL/
 ├── database_startup.sql
 ├── user_authentication.sql
 ├── crud.sql
+├── reports.sql
+├── settings.sql
 └── README.md
 ```
 
 ---
 
-## 📄 Files
+# Purpose
 
-### schema.sql
+Separating the SQL queries into dedicated files provides several advantages:
 
-Contains the complete database schema for the project.
+- Easier debugging
+- Better project organization
+- Improved readability
+- Simplified maintenance
+- Helpful reference for learning SQL
+- Clear separation between Python logic and SQL statements
 
-This file creates:
-
-- Database
-- Categories
-- Suppliers
-- Products
-- Customers
-- Users
-- Purchases
-- Purchase_Items
-- Sales
-- Sale_Items
-
-It also defines:
-
-- Primary Keys
-- Foreign Keys
-- Constraints
-- Default Values
-- ENUM fields
-- CHECK Constraints
-- Cascading Rules
+Although the application executes these queries directly through Python using MySQL Connector, keeping them in separate files makes the database layer easier to understand and serves as useful documentation for future development.
 
 ---
 
-### database_startup.sql
+**Inventory Management System v1.0**
 
-Contains the SQL queries executed during application startup.
-
-Responsibilities include:
-
-- Checking database existence
-- Creating the database (if required)
-- Creating missing tables
-- Initializing default settings
-- Preparing the application for first-time use
-
----
-
-### user_authentication.sql
-
-Contains every SQL query related to authentication.
-
-Includes:
-
-- User Registration
-- User Login
-- Password Verification
-- Password Updates
-- User Validation
-- User Management
-
-Passwords are securely stored using **bcrypt hashing** in the Python application before being saved to the database.
-
----
-
-### crud.sql
-
-Contains the SQL queries used throughout the application for CRUD (Create, Read, Update and Delete) operations.
-
-Covered modules include:
-
-- Categories
-- Suppliers
-- Products
-- Customers
-- Purchases
-- Purchase_Items
-- Sales
-- Sale_Items
-- Users
-
-Operations include:
-
-- INSERT
-- SELECT
-- UPDATE
-- DELETE
-- JOIN Queries
-- Search Queries
-- Sorting Queries
-- Aggregate Queries
-- Stock Updates
-
----
-
-## 🗃 Database Design
-
-The project follows a **relational database design**.
-
-Relationships include:
-
-```
-Categories
-     │
-     ▼
- Products ◄──────────────┐
-     ▲                   │
-     │                   │
-Suppliers                │
-     │                   │
-     ▼                   │
- Purchases               │
-     │                   │
-     ▼                   │
-Purchase_Items───────────┘
-
-
-Customers
-     │
-     ▼
-   Sales
-     │
-     ▼
- Sale_Items
-     ▲
-     │
- Products
-
-
-Users
- ├────────► Purchases
- └────────► Sales
-```
-
----
-
-## 🔒 Database Features
-
-The database uses several mechanisms to maintain integrity:
-
-- Primary Keys
-- Foreign Keys
-- UNIQUE Constraints
-- CHECK Constraints
-- ENUM Columns
-- Default Values
-- Timestamp Tracking
-- ON UPDATE CASCADE
-- ON DELETE RESTRICT
-- ON DELETE CASCADE (where appropriate)
-
----
-
-## ⚙ Transaction Management
-
-Database write operations are performed using transactions.
-
-Typical workflow:
-
-1. Execute SQL statements
-2. Commit on success
-3. Rollback on failure
-4. Display appropriate error messages
-
-This ensures database consistency even if an operation fails midway.
-
----
-
-## 📦 Inventory Logic
-
-The application automatically synchronizes stock levels.
-
-### Purchases
-
-```
-Product Quantity += Purchased Quantity
-```
-
-### Sales
-
-```
-Product Quantity -= Sold Quantity
-```
-
-Sales are validated to ensure sufficient stock exists before completing the transaction.
-
----
-
-## 🛠 Technologies
-
-- MySQL
-- MySQL Connector/Python
-- SQL (DDL & DML)
-
----
-
-## 📌 Current Status
-
-**Version:** v0.6
-
-Completed modules:
-
-- ✅ Users
-- ✅ Categories
-- ✅ Suppliers
-- ✅ Products
-- ✅ Customers
-- ✅ Purchases
-- ✅ Sales
-
-The SQL layer now fully supports the core functionality of the Inventory Management System and provides the foundation for future modules such as Reports, Dashboard, and Analytics.
+**Developed by:** Aishik Ghosh
