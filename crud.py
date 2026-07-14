@@ -908,9 +908,70 @@ def delete_category(connection):
 
 
         elif choice == 2:
-            new_category_name = get_category_name(connection)
+            print("\n\033[1;93mPlease enter the Category Name below....\n")
+            sleep(0.5)
 
-            if new_category_name is None:
+            while True:
+
+                try:
+                    category_name = input("\033[1;93mCATEGORY NAME: \033[0m").strip()
+
+                except Exception as e:
+
+                    print(f"\033[1;91mFailed to continue with searching the supplier\n\033[1;93mReason: {e}\033[0m")
+                    sleep(0.5)
+                    print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
+                    sleep(1)
+                    connection.rollback()
+                    return
+
+                if not category_name:
+                    print("\033[1;91m❌ Category name cannot be empty\033[0m\n")
+                    sleep(1)
+                    continue
+
+                if not re.fullmatch(r"[A-Za-z0-9 _.,'()&/+-]+", category_name):
+                    print("\033[1;91m❌ Category name contains invalid characters\033[0m\n")
+                    sleep(1)
+                    continue
+
+                if len(category_name) > 50:
+                            print("\033[1;91m❌ Category name can have a max of 50 characters\033[0m\n")
+                            sleep(1)
+                            continue
+                break
+
+            cursor = connection.cursor(buffered=True)
+
+            try:
+
+                cursor.execute(
+                    "SELECT * FROM Categories WHERE LOWER(category_name)=LOWER(%s)",
+                    (category_name,)
+                )
+
+                category_check = cursor.fetchone()
+
+            except Exception as e:
+
+                print(f"\033[1;91mFailed to load the category\n\033[1;93mReason: {e}\033[0m")
+                sleep(0.5)
+                print("\033[1;93mPlease fix this issue before trying again\033[0m\n")
+                sleep(1)
+                connection.rollback()
+                return
+
+            finally:
+                cursor.close()
+
+            if not category_check:
+
+                print("\033[1;91m✕ No Category Found\033[0m\n")
+                sleep(1)
+
+                if repeat_operation("search", "categories", "Delete Category"):
+                    break
+
                 return
 
 
@@ -925,7 +986,7 @@ def delete_category(connection):
                                 FROM Categories
                                 WHERE LOWER(category_name)=LOWER(%s)
                                 """,
-                                (new_category_name,)
+                                (category_name,)
                             )
                 categories = cursor.fetchone()
 
@@ -964,7 +1025,7 @@ def delete_category(connection):
     print("\033[1;93m┌───────────────────────────────────┐\033[0m") 
     print("\033[1;93m│           \033[1;91mARE YOU SURE?          \033[1;93m │\033[0m")
     print("\033[1;93m├───────────────────────────────────┤\033[0m")
-    print("\033[1;93m│  \033[1;93m⚠️  THIS ACTION CANNOT BE UNDONE \033[1;93m │\033[0m")
+    print("\033[1;93m│  \033[1;93m⚠️ THIS ACTION CANNOT BE UNDONE \033[1;93m │\033[0m")
     print("\033[1;93m├─────────────────┬─────────────────┤\033[0m")
     print(f"\033[1;93m│ \033[1;97m{"   [1] \033[1;92mYES     ":<10} \033[1;93m│ \033[1;97m{"    [2] \033[1;91mNO ":<22} \033[1;93m│")
     print("\033[1;93m└─────────────────┴─────────────────┘\033[0m")
@@ -2316,7 +2377,7 @@ def update_supplier(connection):
 
                 cursor = connection.cursor(buffered = True)
                 try:
-                    cursor.execute("SELECT * FROM Suppliers WHERE supplier_id = %s;", (new_id,))
+                    cursor.execute("SELECT (supplier_id, supplier_name, contact_person, phone_number, supplier_email, address) FROM Suppliers WHERE supplier_id = %s;", (new_id,))
                     suppliers = cursor.fetchone()
 
                 except  Exception as e:
@@ -2378,7 +2439,7 @@ def update_supplier(connection):
 
                 cursor = connection.cursor(buffered = True)
                 try:
-                    cursor.execute("SELECT * FROM Suppliers WHERE LOWER(supplier_name)=LOWER(%s)",(supplier_name,))
+                    cursor.execute("SELECT (supplier_id, supplier_name, contact_person, phone_number, supplier_email, address) FROM Suppliers WHERE LOWER(supplier_name)=LOWER(%s)",(supplier_name,))
 
                     suppliers = cursor.fetchone()
 
