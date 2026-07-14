@@ -281,111 +281,111 @@ Features
 
 # Installation
 
-## Method 1 — Using the Pre-built Executable (Recommended)
+## Method 1 — Using the Pre-built Application (Recommended)
 
-### Step 1
+### Step 1 — Download
 
-Download the latest release from the GitHub Releases page.
+Download the latest release from the **GitHub Releases** page.
 
-Extract the ZIP archive.
+Download:
+
+```
+Inventory Management System.zip
+```
+
+Extract the ZIP file to any location on your computer.
+
+After extraction you should have a folder similar to:
+
+```
+Inventory Management System
+│
+├── Inventory Management System.exe
+├── _internal/
+├── sql/
+└── ...
+```
+
+> **Important**
+>
+> Do **not** move the executable outside the extracted folder.
+> The application depends on the files included alongside the executable.
 
 ---
 
-### Step 2
+### Step 2 — Install MySQL Server
 
-Ensure **MySQL Server 8.0 or later** is installed and running.
+This application requires **MySQL Server 8.0 or later**.
 
-If you do not have MySQL installed:
-
-Download MySQL Community Server
+Download MySQL Community Server:
 
 https://dev.mysql.com/downloads/mysql/
 
-or install MySQL Installer for Windows
+or install MySQL Installer for Windows:
 
 https://dev.mysql.com/downloads/installer/
 
 During installation:
 
-- Install MySQL Server
-- Install MySQL Workbench (optional but recommended)
-- Remember the root password
-- Keep the default port (3306)
+- Install **MySQL Server**
+- (Optional) Install **MySQL Workbench**
+- Remember your **root password**
+- Keep the default port (**3306**) unless you have a specific reason to change it
 
-After installation, verify that the MySQL service is running.
+Ensure that the MySQL service is running before launching the application.
 
 ---
 
-### Step 3
+### Step 3 — Run the Application
 
-Run
+Open the extracted folder and double-click
 
 ```
 Inventory Management System.exe
 ```
 
-On first launch the application automatically starts the setup wizard.
+On the first launch, the application automatically starts the setup wizard.
 
-You will be asked for
+You will be prompted to enter:
 
 - MySQL Host
 - MySQL Port
 - Username
 - Password
-- Database Name
 
-Example
+The application will automatically:
 
-```
-Host:
-localhost
-
-Port:
-3306
-
-Username:
-root
-
-Password:
-********
-
-Database:
-inventory_management
-```
-
-The application automatically
-
-- Creates the configuration file
-- Connects to MySQL
-- Creates the database
-- Creates all required tables
-- Starts the login system
+- Create the configuration file (`.env`)
+- Connect to MySQL
+- Create the database (if it does not already exist)
+- Create all required tables
+- Prompt you to create the first Administrator account
 
 No manual SQL execution is required.
 
 ---
 
-# Method 2 — Run From Source Code
+## Method 2 — Run from Source Code
 
-Clone the repository
+Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/Inventory-Management-System.git
+git clone https://github.com/aishikghosh20/Inventory-Management-System.git
 ```
 
-Open the project
+Navigate into the project:
 
 ```bash
 cd Inventory-Management-System
 ```
 
-Create a virtual environment
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it
+Activate it:
 
 Windows
 
@@ -393,20 +393,19 @@ Windows
 .venv\Scripts\activate
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run
+Run the application:
 
 ```bash
 python main.py
 ```
 
-The setup wizard will launch automatically on first startup.
-
+The setup wizard will launch automatically on the first startup.
 ---
 
 # First Login
