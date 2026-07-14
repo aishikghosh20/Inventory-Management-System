@@ -21,20 +21,21 @@ def database_exists(connection):
     cursor = connection.cursor(buffered = True)
     try:
         cursor.execute(f"SHOW DATABASES LIKE '{DB_NAME}'")
-        exists= cursor.fetchone() is not None
-        databases = [db[0] for db in cursor.fetchall()]
-        print("\n\033[1;97mDB_NAME =", DB_NAME)
-        print("DATABASES =\033[0m", databases)
-        print()
-        sleep(1)
-        cursor.close()
+        exists= cursor.fetchone() 
+        if exists is None:
+            return False
+        else:
+            return True
     except Exception as e:
         print(f"\033[1;91mFailed: {e}\033[0m")
         sleep(1)
         cursor.close()
         exit_app(connection)
 
-    return exists
+    finally:
+        cursor.close()
+
+
 
 def create_database(connection):
     from config import DB_NAME
