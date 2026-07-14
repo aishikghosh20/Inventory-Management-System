@@ -3667,7 +3667,7 @@ def add_product(connection):
         print("\n\033[1;93mAvailable Categories:\033[0m\n")
         sleep(0.5)
 
-        view_category(connection, pause=False)
+        view_category(connection)
 
         print()
 
@@ -3730,7 +3730,7 @@ def add_product(connection):
         print("\n\033[1;93mAvailable Suppliers:\033[0m\n")
         sleep(0.5)
 
-        view_suppliers(connection, pause=False)
+        view_suppliers(connection)
 
         print()
 
@@ -5056,7 +5056,7 @@ def update_product(connection):
                 print("\n\033[1;93mAvailable Categories:\033[0m\n")
                 sleep(0.5)
 
-                view_category(connection, pause=False)
+                view_category(connection)
 
                 print()
 
@@ -5112,7 +5112,7 @@ def update_product(connection):
                 print("\n\033[1;93mAvailable Suppliers:\033[0m\n")
                 sleep(0.5)
 
-                view_suppliers(connection, pause=False)
+                view_suppliers(connection)
 
                 print()
 
@@ -5257,7 +5257,7 @@ def update_product(connection):
                 print("\n\033[1;93mAvailable Categories:\033[0m\n")
                 sleep(0.5)
 
-                view_category(connection, pause=False)
+                view_category(connection)
 
                 while True:
 
@@ -5305,7 +5305,7 @@ def update_product(connection):
                 print("\n\033[1;93mAvailable Suppliers:\033[0m\n")
                 sleep(0.5)
 
-                view_suppliers(connection, pause=False)
+                view_suppliers(connection)
 
                 while True:
 
@@ -6029,8 +6029,8 @@ def add_customer(connection):
 
         phone_number = get_phone(
             connection,
-            None,
-            "Customers"
+            "Customers",
+            None
         )
 
         if phone_number is None:
@@ -7155,8 +7155,8 @@ def update_customer(connection):
 
                 new_phone_number = get_phone(
                     connection,
-                    phone_number,
-                    "Customers"
+                    "Customers",
+                    phone_number
                 )
 
                 if new_phone_number is None:
@@ -7217,8 +7217,8 @@ def update_customer(connection):
 
                 new_phone_number = get_phone(
                     connection,
-                    phone_number,
-                    "Customers"
+                    "Customers",
+                    phone_number
                 )
 
                 new_customer_email = get_email(
@@ -7456,7 +7456,7 @@ def get_supplier_id(connection):
     print("\n\033[1;93mAvailable Suppliers:\033[0m\n")
     sleep(0.5)
 
-    view_suppliers(connection, pause=False)
+    view_suppliers(connection)
 
     print()
 
@@ -8746,7 +8746,6 @@ def get_customer_id(connection):
 
     view_customers(
         connection,
-        pause=False
     )
 
     print()

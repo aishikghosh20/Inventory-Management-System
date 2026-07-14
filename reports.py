@@ -469,12 +469,16 @@ def inventory_report(connection):
                 inventory_value,
                 reorder_level
             )
+        
+        sleep(0.5)
 
         print_inventory_summary(
             total_products,
             total_quantity,
             total_inventory_value
         )
+        sleep(0.5)
+        input("press Enter to go back to main menu")
         return
     
 def sales_report(connection):
