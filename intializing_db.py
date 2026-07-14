@@ -2,6 +2,7 @@ import mysql.connector
 from pathlib import Path
 import sys
 from time import sleep
+from config import RESOURCE_DIR
 
 def exit_app(connection):
     print(f"\033[1;93mExiting the program...\033[0m")
@@ -93,16 +94,9 @@ def tables_exists(connection):
     sleep(0.5)
     return exists
 
-def tables_create(connection):
+def tables_create(connection):\
 
-    if getattr(sys, "frozen", False):
-    # Running as an executable
-        BASE_DIR = Path(sys.executable).parent
-    else:
-        # Running from source code
-        BASE_DIR = Path(__file__).resolve().parent
-
-    schema_file = BASE_DIR/"sql"/"schema.sql" # To get the schema file
+    schema_file = RESOURCE_DIR/"sql"/"schema.sql" # To get the schema file
 
     # To read all the queries from the schema file
     with open(schema_file, "r", encoding= "utf-8") as file:

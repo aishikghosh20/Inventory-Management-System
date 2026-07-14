@@ -4,11 +4,13 @@ from pathlib import Path
 import sys
 
 if getattr(sys, "frozen", False):
-    # Running as an executable
     BASE_DIR = Path(sys.executable).parent
+
+    # Location of bundled files (schema.sql, etc.)
+    RESOURCE_DIR = Path(getattr(sys, "_MEIPASS"))
 else:
-    # Running from source code
     BASE_DIR = Path(__file__).resolve().parent
+    RESOURCE_DIR = BASE_DIR
 
 env_path = BASE_DIR / ".env" # Path to .env
 
