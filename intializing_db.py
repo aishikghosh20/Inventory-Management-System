@@ -94,7 +94,7 @@ def tables_exists(connection):
     sleep(0.5)
     return exists
 
-def tables_create(connection):\
+def tables_create(connection):
 
     schema_file = RESOURCE_DIR/"sql"/"schema.sql" # To get the schema file
 
