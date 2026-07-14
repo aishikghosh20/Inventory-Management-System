@@ -22,6 +22,11 @@ def database_exists(connection):
     try:
         cursor.execute(f"SHOW DATABASES LIKE '{DB_NAME}'")
         exists= cursor.fetchone() is not None
+        databases = [db[0] for db in cursor.fetchall()]
+        print("\n\033[1;97mDB_NAME =", DB_NAME)
+        print("DATABASES =\033[0m", databases)
+        print()
+        sleep(1)
         cursor.close()
     except Exception as e:
         print(f"\033[1;91mFailed: {e}\033[0m")
