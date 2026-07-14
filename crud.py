@@ -2377,7 +2377,7 @@ def update_supplier(connection):
 
                 cursor = connection.cursor(buffered = True)
                 try:
-                    cursor.execute("SELECT (supplier_id, supplier_name, contact_person, phone_number, supplier_email, address) FROM Suppliers WHERE supplier_id = %s;", (new_id,))
+                    cursor.execute("SELECT * FROM Suppliers WHERE supplier_id = %s;", (new_id,))
                     suppliers = cursor.fetchone()
 
                 except  Exception as e:
@@ -2397,7 +2397,7 @@ def update_supplier(connection):
                     if repeat_operation("search", "supplier", "menu"):
                         break
                     return
-                supplier_id, supplier_name, contact_person, phone_number, supplier_email, address = suppliers
+                supplier_id, supplier_name, contact_person, phone_number, supplier_email, address, created_at, updated_at = suppliers
 
                 print_supplier(
                     supplier_id,supplier_name,phone_number,supplier_email,address,contact_person,pause=True
@@ -2439,7 +2439,7 @@ def update_supplier(connection):
 
                 cursor = connection.cursor(buffered = True)
                 try:
-                    cursor.execute("SELECT (supplier_id, supplier_name, contact_person, phone_number, supplier_email, address) FROM Suppliers WHERE LOWER(supplier_name)=LOWER(%s)",(supplier_name,))
+                    cursor.execute("SELECT * FROM Suppliers WHERE LOWER(supplier_name)=LOWER(%s)",(supplier_name,))
 
                     suppliers = cursor.fetchone()
 
@@ -2461,7 +2461,7 @@ def update_supplier(connection):
                         break
                     return
                 
-                supplier_id, supplier_name, contact_person, phone_number, supplier_email, address = suppliers
+                supplier_id, supplier_name, contact_person, phone_number, supplier_email, address, created_at, updated_at = suppliers
 
                 print_supplier(
                     supplier_id,supplier_name,phone_number,supplier_email,address,contact_person,pause=True
