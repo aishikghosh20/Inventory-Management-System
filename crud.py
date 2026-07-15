@@ -44,13 +44,9 @@ def print_category(category_id, category_name, description, pause=True):
         sleep(0.5)
         input("\n\033[1;97mPress Enter to continue...\033[0m")
 def repeat_operation(operation, entity, location="main menu"):
-    
-    # Returns:
-    #     True  -> Repeat the operation
-    #     False -> Return to previous menu
 
     print(f"\n\033[1;93mWould you like to {operation} another {entity}?\033[0m\n")
-    print("\033[1;97m[1] YES")
+    print("\033[1;92m[1] YES")
     print("\033[1;91m[2] NO\033[0m")
 
     while True:
@@ -969,7 +965,7 @@ def delete_category(connection):
                 print("\033[1;91m✕ No Category Found\033[0m\n")
                 sleep(1)
 
-                if repeat_operation("search", "categories", "Delete Category"):
+                if repeat_operation("search", "categories", "Category menu"):
                     break
 
                 return
@@ -1215,14 +1211,15 @@ def print_supplier(supplier_id,supplier_name,phone_number,supplier_email,address
     if pause:
         sleep(0.5)
         input("\n\033[1;97mPress Enter to continue...\033[0m")
+
 def get_supplier_name(connection, current_name=None):
 
-    print("\033[1;93mPlease enter the New Name:\033[0m\n")
+    print("\033[1;93mPlease enter the Name:\033[0m\n")
     sleep(0.5)
 
     while True:
         try:
-            new_name = input("\033[1;93mSupplier NAME: \033[0m").strip()
+            new_name = input("\033[1;93mSupplier Name: \033[0m").strip()
 
         except Exception as e:
             print(f"\033[1;91mFailed to continue with adding the name\n\033[1;93mReason: {e}\033[0m")
@@ -1247,7 +1244,7 @@ def get_supplier_name(connection, current_name=None):
             sleep(1)
             continue
 
-        if new_name.lower() == current_name.lower():
+        if current_name and new_name.lower() == current_name.lower():
             return new_name
 
         try:
@@ -1265,6 +1262,7 @@ def get_supplier_name(connection, current_name=None):
             sleep(1)
             connection.rollback()
             return None
+
 def review_supplier_update(
     supplier_id,
     old_name, new_name,
@@ -2495,6 +2493,9 @@ def update_supplier(connection):
                 print("\033[1;91mEnter a valid choice.\033[0m")
                 sleep(1)
                 continue
+
+            if choice == 0:
+                return
                 
             if choice == 1:
                 new_supplier_name = get_supplier_name(
@@ -2526,7 +2527,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2546,7 +2547,7 @@ def update_supplier(connection):
                 )
 
                 if success:
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
                     return
 
@@ -2616,7 +2617,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2637,7 +2638,7 @@ def update_supplier(connection):
 
                 if success:
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2711,7 +2712,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2732,7 +2733,7 @@ def update_supplier(connection):
 
                 if success:
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2777,7 +2778,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2798,7 +2799,7 @@ def update_supplier(connection):
 
                 if success:
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2855,7 +2856,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2876,7 +2877,7 @@ def update_supplier(connection):
 
                 if success:
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2944,7 +2945,7 @@ def update_supplier(connection):
                     print("\033[1;97mCancelling...\033[0m")
                     sleep(1)
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -2974,7 +2975,7 @@ def update_supplier(connection):
 
                 if success:
 
-                    if repeat_operation("update", "supplier", "Update Supplier"):
+                    if repeat_operation("update", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -3060,7 +3061,7 @@ def delete_supplier(connection):
                     print("\033[1;91m✕ No Supplier Found\033[0m\n")
                     sleep(1)
 
-                    if repeat_operation("search", "supplier", "Delete Supplier"):
+                    if repeat_operation("search", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -3153,7 +3154,7 @@ def delete_supplier(connection):
                     print("\033[1;91m✕ No Supplier Found\033[0m\n")
                     sleep(1)
 
-                    if repeat_operation("search", "supplier", "Delete Supplier"):
+                    if repeat_operation("search", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -3216,7 +3217,7 @@ def delete_supplier(connection):
                 print("\033[1;97mCancelling...\033[0m")
                 sleep(1)
 
-                if repeat_operation("delete", "supplier", "Delete Supplier"):
+                if repeat_operation("delete", "supplier", "Supplier menu"):
                     break
 
                 return
@@ -3243,7 +3244,7 @@ def delete_supplier(connection):
                     print("\033[1;92m✓ Supplier deleted successfully\033[0m")
                     sleep(1)
 
-                    if repeat_operation("delete", "supplier", "Delete Supplier"):
+                    if repeat_operation("delete", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -3264,7 +3265,7 @@ def delete_supplier(connection):
 
                     sleep(1)
 
-                    if repeat_operation("delete", "supplier", "Delete Supplier"):
+                    if repeat_operation("delete", "supplier", "Supplier menu"):
                         break
 
                     return
@@ -4121,7 +4122,7 @@ def view_products(connection):
 
         input("\n\033[1;97mPress Enter to continue...\033[0m")
 
-        continue
+        return
 
 def search_products(connection):
 
@@ -4133,15 +4134,14 @@ def search_products(connection):
         breadcrumb("Home", "Products", "Search Products")
         sleep(0.5)
 
-        print(
+        while True:
+            print(
             "\n\033[1;93mSearch Type:\n"
             "\033[1;97m"
             "[1] Search by ID\n"
             "[2] Search by Name\n\n"
             "[0] Back\033[0m"
         )
-
-        while True:
 
             try:
                 choice = int(input("\033[1;93mChoice: \033[0m"))
@@ -4235,17 +4235,17 @@ def search_products(connection):
                     print("\033[1;91m✕ No Product Found\033[0m\n")
                     sleep(1)
 
-                    if repeat_operation("search", "product", "Search Products"):
+                    if repeat_operation("search", "product", "Products menu"):
                         break
 
                     return
 
                 print_product(*product)
 
-                if repeat_operation("search", "product", "Search Products"):
+                if repeat_operation("search", "product", "Products"):
                     break
 
-                continue
+                return
             
             # ---------------- Search By Name ---------------- #
 
@@ -4368,7 +4368,7 @@ def search_products(connection):
                     if repeat_operation(
                         "search",
                         "product",
-                        "Search Products"
+                        "Products menu"
                     ):
                         break
 
@@ -4379,11 +4379,11 @@ def search_products(connection):
                 if repeat_operation(
                     "search",
                     "product",
-                    "Search Products"
+                    "Products"
                 ):
                     break
 
-                continue
+                return
 
             else:
 
@@ -4500,10 +4500,10 @@ def delete_product(connection):
                     print("\033[1;91m✕ No Product Found\033[0m\n")
                     sleep(1)
 
-                    if repeat_operation("search", "product", "Delete Product"):
+                    if repeat_operation("search", "product", "Product"):
                         break
 
-                    continue
+                    return
 
                 print_product(*product)
 
@@ -4615,10 +4615,10 @@ def delete_product(connection):
                     print("\033[1;91m✕ No Product Found\033[0m\n")
                     sleep(1)
 
-                    if repeat_operation("search", "product", "Delete Product"):
+                    if repeat_operation("search", "product", "Product"):
                         break
 
-                    continue
+                    return
 
                 print_product(*product)
 
@@ -4661,7 +4661,7 @@ def delete_product(connection):
                 if repeat_operation(
                     "delete",
                     "product",
-                    "Delete Product"
+                    "Product"
                 ):
                     break
 
@@ -4692,7 +4692,7 @@ def delete_product(connection):
                     if repeat_operation(
                         "delete",
                         "product",
-                        "Delete Product"
+                        "Product"
                     ):
                         break
 
@@ -4717,11 +4717,11 @@ def delete_product(connection):
                     if repeat_operation(
                         "delete",
                         "product",
-                        "Delete Product"
+                        "Product"
                     ):
                         break
 
-                    continue
+                    return
 
                 except Exception as e:
 
@@ -4870,11 +4870,11 @@ def update_product(connection):
                     if repeat_operation(
                         "search",
                         "product",
-                        "Update Product"
+                        "Product"
                     ):
                         break
 
-                    continue
+                    return
 
                 (
                     product_id,
@@ -5012,11 +5012,11 @@ def update_product(connection):
                     if repeat_operation(
                         "search",
                         "product",
-                        "Update Product"
+                        "Product"
                     ):
                         break
 
-                    continue
+                    return
 
                 (
                     product_id,
@@ -5091,7 +5091,7 @@ def update_product(connection):
                 ):
                     break
 
-                continue
+                return
 
             # ---------------- Product Name ---------------- #
 
@@ -5439,6 +5439,9 @@ def update_product(connection):
         
                 # ---------------- Review & Save Changes ---------------- #
 
+        if choice == 0:
+            continue
+
         if choice == 1:
 
             review_product_update(
@@ -5768,15 +5771,15 @@ def update_product(connection):
             if repeat_operation("update", "product", "Products Menu"):
                 continue
 
-            continue
+            return
 
 
-        if execute_update(connection, query, values):
+        if execute_update(connection, query, values, "Product"):
 
             if repeat_operation("update", "product", "Products Menu"):
                 continue
 
-            continue
+            return
         
 
 def get_first_name(current_first_name=None):
@@ -6111,7 +6114,7 @@ def add_customer(connection):
 
         # ---------------- Address ---------------- #
 
-        address = get_address(150)
+        address = get_address("Address", 150)
 
         if address is None:
             continue
@@ -6169,7 +6172,7 @@ def add_customer(connection):
                 if repeat_operation("add", "customer"):
                     continue
 
-                continue
+                return
 
             except Exception as e:
 
@@ -6202,9 +6205,9 @@ def add_customer(connection):
             if repeat_operation("add", "customer"):
                 continue
 
-            continue
+            return
 
-def view_customers(connection):
+def view_customer(connection):
 
     while True:
 
@@ -6463,22 +6466,22 @@ def search_customers(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Search Customers"
+                        "Customers"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_customer(*customer)
 
                 if repeat_operation(
                     "search",
                     "customer",
-                    "Search Customers"
+                    "Customers"
                 ):
                     break
 
-                continue
+                return
 
                         # ---------------- Search By First Name ---------------- #
 
@@ -6545,22 +6548,22 @@ def search_customers(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Search Customers"
+                        "Customers"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_customer(*customer)
 
                 if repeat_operation(
                     "search",
                     "customer",
-                    "Search Customers"
+                    "Customers"
                 ):
                     break
 
-                continue
+                return
 
             else:
 
@@ -6679,11 +6682,11 @@ def delete_customer(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Delete Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_customer(*customer)
 
@@ -6755,11 +6758,11 @@ def delete_customer(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Delete Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_customer(*customer)
 
@@ -6815,11 +6818,11 @@ def delete_customer(connection):
                 if repeat_operation(
                     "delete",
                     "customer",
-                    "Delete Customer"
+                    "Customer"
                 ):
                     break
 
-                continue
+                return
 
             elif choice == 1:
 
@@ -6846,11 +6849,11 @@ def delete_customer(connection):
                     if repeat_operation(
                         "delete",
                         "customer",
-                        "Delete Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 except mysql.connector.IntegrityError:
 
@@ -6871,11 +6874,11 @@ def delete_customer(connection):
                     if repeat_operation(
                         "delete",
                         "customer",
-                        "Delete Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 except Exception as e:
 
@@ -7018,11 +7021,11 @@ def update_customer(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Update Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 (
                     customer_id,
@@ -7108,11 +7111,11 @@ def update_customer(connection):
                     if repeat_operation(
                         "search",
                         "customer",
-                        "Update Customer"
+                        "Customer"
                     ):
                         break
 
-                    continue
+                    return
 
                 (
                     customer_id,
@@ -7172,11 +7175,11 @@ def update_customer(connection):
                 if repeat_operation(
                     "update",
                     "customer",
-                    "Update Customer"
+                    "Customer"
                 ):
                     break
 
-                continue
+                return
 
             # ---------------- First Name ---------------- #
 
@@ -7252,8 +7255,8 @@ def update_customer(connection):
             elif choice == 5:
 
                 new_address = get_address(
-                    150,
-                    address
+                    "Address",
+                    150
                 )
 
                 if new_address is None:
@@ -7290,8 +7293,8 @@ def update_customer(connection):
                 )
 
                 new_address = get_address(
-                    150,
-                    address
+                    "Address",
+                    150
                 )
 
                 break
@@ -7301,6 +7304,9 @@ def update_customer(connection):
                 print("\033[1;91mEnter a valid input\033[0m")
                 sleep(1)
                 continue
+
+        if choice == 0:
+            continue
 
      # ---------------- Review & Save Changes ---------------- #
 
@@ -7489,11 +7495,11 @@ def update_customer(connection):
             if repeat_operation(
                 "update",
                 "customer",
-                "Update Customer"
+                "Customer"
             ):
                 continue
 
-            continue
+            return
 
 
         if execute_update(
@@ -7505,11 +7511,11 @@ def update_customer(connection):
             if repeat_operation(
                 "update",
                 "customer",
-                "Update Customer"
+                "Customer"
             ):
                 continue
 
-            continue
+            return
 
 
 def get_supplier_id(connection):
@@ -7701,6 +7707,7 @@ def print_purchase(
 def review_new_purchase(
     supplier_name,
     username,
+    purchase_items,
     total_amount
 ):
 
@@ -7721,12 +7728,24 @@ def review_new_purchase(
     print("\033[1;97mTotal Amount:\033[0m")
     print(f"  ₹{total_amount:.2f}\n")
 
+    print("\033[1;97mItems:\033[0m")
+
+    for item in purchase_items:
+        print(
+            f"  • {item['product_name']} "
+            f"x{item['quantity']} "
+            f"@ ₹{item['unit_price']:.2f} "
+            f"= ₹{item['subtotal']:.2f}"
+        )
+
+    print()
+
 def get_product_id(connection):
 
     print("\n\033[1;93mAvailable Products:\033[0m\n")
     sleep(0.5)
 
-    view_products(connection, pause=False)
+    view_products(connection)
 
     print()
 
@@ -8054,7 +8073,7 @@ def add_purchase(connection, user_id):
             
             print("\n\033[1;93mAdd another product?\033[0m\n")
             print("\033[1;92m[1] ✔ Yes")
-            print("[2] ✖ No\033[0m")
+            print("\033[1;91m[2] ✖ No\033[0m")
 
             while True:
 
@@ -8157,11 +8176,11 @@ def add_purchase(connection, user_id):
             if repeat_operation(
                 "add",
                 "purchase",
-                "New Purchase"
+                "Purchase"
             ):
                 continue
 
-            continue
+            return
 
         print("\033[1;93mInitializing purchase...\033[0m")
         sleep(0.5)
@@ -8238,11 +8257,11 @@ def add_purchase(connection, user_id):
             if repeat_operation(
                 "add",
                 "purchase",
-                "New Purchase"
+                "Purchase"
             ):
                 continue
 
-            continue
+            return
         
         except Exception as e:
 
@@ -8478,22 +8497,22 @@ def search_purchase(connection):
                     if repeat_operation(
                         "search",
                         "purchase",
-                        "Search Purchase"
+                        "Purchase"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_purchase(*purchase)
 
                 if repeat_operation(
                     "search",
                     "purchase",
-                    "Search Purchase"
+                    "Purchase"
                 ):
                     break
 
-                continue
+                return
 
             # ---------------- Search By Supplier Name ---------------- #
 
@@ -8502,13 +8521,88 @@ def search_purchase(connection):
                 print("\n\033[1;93mPlease enter the Supplier Name below....\n")
                 sleep(0.5)
 
-                supplier_name = get_supplier_name(
-                    connection,
-                    None
-                )
+                while True:
 
-                if supplier_name is None:
-                    continue
+                    try:
+
+                        supplier_name = input("\033[1;93mSupplier Name: \033[0m").strip()
+
+                    except Exception as e:
+
+                        print(
+                            f"\033[1;91mFailed to continue with searching the supplier\n"
+                            f"\033[1;93mReason: {e}\033[0m"
+                        )
+                        sleep(0.5)
+
+                        print(
+                            "\033[1;93mPlease fix this issue before trying again\033[0m\n"
+                        )
+                        sleep(1)
+
+                        connection.rollback()
+                        return
+
+                    if not supplier_name:
+
+                        print("\033[1;91m❌ Supplier name cannot be empty\033[0m")
+                        sleep(1)
+                        continue
+
+                    if not re.fullmatch(r"[A-Za-z0-9 _.,'()&/+-]+", supplier_name):
+
+                        print("\033[1;91m❌ Supplier name contains invalid characters\033[0m")
+                        sleep(1)
+                        continue
+
+                    if len(supplier_name) > 100:
+
+                        print("\033[1;91m❌ Supplier name can have a maximum of 100 characters\033[0m")
+                        sleep(1)
+                        continue
+
+                    cursor = connection.cursor(buffered=True)
+
+                    try:
+
+                        cursor.execute(
+                            """
+                            SELECT supplier_id
+                            FROM Suppliers
+                            WHERE LOWER(supplier_name) = LOWER(%s)
+                            """,
+                            (supplier_name,)
+                        )
+
+                        supplier = cursor.fetchone()
+
+                    except Exception as e:
+
+                        print(
+                            f"\033[1;91mFailed to verify the supplier\n"
+                            f"\033[1;93mReason: {e}\033[0m"
+                        )
+                        sleep(0.5)
+
+                        print(
+                            "\033[1;93mPlease fix this issue before trying again\033[0m\n"
+                        )
+                        sleep(1)
+
+                        connection.rollback()
+                        return
+
+                    finally:
+
+                        cursor.close()
+
+                    if not supplier:
+
+                        print("\033[1;91m✕ Supplier does not exist\033[0m")
+                        sleep(1)
+                        continue
+
+                    break
 
                 cursor = connection.cursor(buffered=True)
 
@@ -8566,11 +8660,11 @@ def search_purchase(connection):
                     if repeat_operation(
                         "search",
                         "purchase",
-                        "Search Purchase"
+                        "Purchase"
                     ):
                         break
 
-                    continue
+                    return
                 
                 for purchase in purchases:
                     print_purchase(*purchase, pause = False)
@@ -8579,11 +8673,11 @@ def search_purchase(connection):
                 if repeat_operation(
                     "search",
                     "purchase",
-                    "Search Purchase"
+                    "Purchase"
                 ):
                     break
 
-                continue
+                return
 
             else:
 
@@ -8805,7 +8899,7 @@ def get_customer_id(connection):
     print("\n\033[1;93mAvailable Customers:\033[0m\n")
     sleep(0.5)
 
-    view_customers(
+    view_customer(
         connection,
     )
 
@@ -9159,7 +9253,7 @@ def add_sale(connection, user_id):
 
             print("\n\033[1;93mAdd another product?\033[0m\n")
             print("\033[1;92m[1] ✔ Yes")
-            print("[2] ✖ No\033[0m")
+            print("\033[1;91m[2] ✖ No\033[0m")
 
             while True:
 
@@ -9260,11 +9354,11 @@ def add_sale(connection, user_id):
             if repeat_operation(
                 "add",
                 "sale",
-                "New Sale"
+                "Sale"
             ):
                 continue
 
-            continue
+            return
 
         print("\033[1;93mInitializing sale...\033[0m")
         sleep(0.5)
@@ -9341,11 +9435,11 @@ def add_sale(connection, user_id):
             if repeat_operation(
                 "add",
                 "sale",
-                "New Sale"
+                "Sale"
             ):
                 continue
 
-            continue
+            return
 
         except Exception as e:
 
@@ -9443,22 +9537,22 @@ def search_sale(connection):
                     if repeat_operation(
                         "search",
                         "sale",
-                        "Search Sale"
+                        "Sale"
                     ):
                         break
 
-                    continue
+                    return
 
                 print_sale(*sale)
 
                 if repeat_operation(
                     "search",
                     "sale",
-                    "Search Sale"
+                    "Sale"
                 ):
                     break
 
-                continue
+                return
 
                 # ---------------- Search By Customer Name ---------------- #
 
@@ -9539,11 +9633,11 @@ def search_sale(connection):
                     if repeat_operation(
                         "search",
                         "sale",
-                        "Search Sale"
+                        "Sale"
                     ):
                         break
 
-                    continue
+                    return
 
                 for sale in sales:
 
@@ -9557,11 +9651,11 @@ def search_sale(connection):
                 if repeat_operation(
                     "search",
                     "sale",
-                    "Search Sale"
+                    "Sale"
                 ):
                     break
 
-                continue
+                return
 
             else:
 

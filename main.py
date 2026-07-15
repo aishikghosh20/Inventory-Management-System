@@ -6,7 +6,7 @@ from intializing_db import database_exists, create_database, connect_database, t
 from authentication import count_users, create_user, user_login
 from crud import add_product, add_category, view_category, search_categories, update_category, delete_category
 from crud import add_supplier, view_suppliers, search_supplier, update_supplier, delete_supplier, view_products, delete_product, search_products,  update_product
-from crud import add_customer, view_customers, search_customers ,delete_customer, update_customer
+from crud import add_customer, view_customer, search_customers ,delete_customer, update_customer
 from crud import add_purchase, purchase_history, search_purchase, add_sale, sales_history, search_sale
 from reports import inventory_report, sales_report, purchase_report, low_stock_report, profit_report
 from settings import change_password, manage_users, manage_roles, db_info
@@ -227,7 +227,7 @@ def customers_menu(connection):
         elif choice == 2:
             print("\n\033[1;97mViewing customers...")
             sleep(0.5)
-            view_customers(connection)
+            view_customer(connection)
             continue
         elif choice == 3:
             print("\n\033[1;97mLoading search bar...")

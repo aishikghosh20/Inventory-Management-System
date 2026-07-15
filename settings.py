@@ -44,16 +44,47 @@ def get_new_password():
 
     while True:
 
-        password = getpass(
-            "\033[1;93mNEW PASSWORD: \033[0m"
-        )
+        print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+        while True:
+            try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
 
-        if password.lower() == "cancel":
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
 
-            print("\033[1;97mCancelling...\033[0m")
-            sleep(1)
+            if choice == 1:
+                import pwinput
+                while True:
+                    password = pwinput.pwinput(prompt="\033[1;96mPassword: \033[0m", mask= "*")
 
-            return None
+                    if password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            elif choice == 2:
+                while True:
+                    password = input("\033[1;96mPassword: \033[0m")
+
+                    if password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            else:
+                print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                sleep(1)
+                continue
+
+            if password:
+                break
+
+
+
 
         if len(password) < 8:
 
@@ -75,46 +106,6 @@ def get_new_password():
 
             continue
 
-        if not re.search(r"[A-Z]", password):
-
-            print(
-                "\033[1;91mPassword must contain at least one uppercase letter\033[0m"
-            )
-
-            sleep(1)
-
-            continue
-
-        if not re.search(r"[a-z]", password):
-
-            print(
-                "\033[1;91mPassword must contain at least one lowercase letter\033[0m"
-            )
-
-            sleep(1)
-
-            continue
-
-        if not re.search(r"\d", password):
-
-            print(
-                "\033[1;91mPassword must contain at least one digit\033[0m"
-            )
-
-            sleep(1)
-
-            continue
-
-        if not re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]", password):
-
-            print(
-                "\033[1;91mPassword must contain at least one special character\033[0m"
-            )
-
-            sleep(1)
-
-            continue
-
         return password
 
 def confirm_new_password(
@@ -123,18 +114,47 @@ def confirm_new_password(
 
     while True:
 
-        confirm_password = getpass(
-            "\033[1;93mCONFIRM PASSWORD: \033[0m"
-        )
+        print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+        while True:
+            try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
 
-        if confirm_password.lower() == "cancel":
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
 
-            print("\033[1;97mCancelling...\033[0m")
-            sleep(1)
+            if choice == 1:
+                import pwinput
+                while True:
+                    password = pwinput.pwinput(prompt="\033[1;96mConfirm Password: \033[0m", mask= "*")
 
-            return False
+                    if password:
+                        break
 
-        if confirm_password != new_password:
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            elif choice == 2:
+                while True:
+                    password = input("\033[1;96mConfirm Password: \033[0m")
+
+                    if password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            else:
+                print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                sleep(1)
+                continue
+
+            if password:
+                break
+
+
+        if password != new_password:
 
             print(
                 "\033[1;91mPasswords do not match\033[0m"
@@ -606,7 +626,7 @@ def add_user(
 
         # ---------------- Last Name ---------------- #
 
-        last_name = get_last_name()
+        last_name = get_last_name(connection)
 
         if last_name is None:
 
@@ -673,12 +693,12 @@ def add_user(
             if repeat_operation(
                 "add",
                 "user",
-                "Add User"
+                "User"
             ):
 
                 continue
 
-            continue
+            return
 
         print("\033[1;93mInitializing user...\033[0m")
 
@@ -727,12 +747,12 @@ def add_user(
             if repeat_operation(
                 "add",
                 "user",
-                "Add User"
+                "User"
             ):
 
                 continue
 
-            continue
+            return
 
         except Exception as e:
 
@@ -957,12 +977,12 @@ def search_users(connection):
                     if repeat_operation(
                         "search",
                         "user",
-                        "Search User"
+                        "user menu"
                     ):
 
                         break
 
-                    continue
+                    return
 
                 print_user(
                     *user,
@@ -974,12 +994,12 @@ def search_users(connection):
                 if repeat_operation(
                     "search",
                     "user",
-                    "Search User"
+                    "user menu"
                 ):
 
                     break
 
-                continue
+                return
 
             # ---------------- Search By Username ---------------- #
 
@@ -1068,12 +1088,12 @@ def search_users(connection):
                     if repeat_operation(
                         "search",
                         "user",
-                        "Search User"
+                        "user menu"
                     ):
 
                         break
 
-                    continue
+                    return
 
                 print_user(
                     *user,
@@ -1085,12 +1105,12 @@ def search_users(connection):
                 if repeat_operation(
                     "search",
                     "user",
-                    "Search User"
+                    "user menu"
                 ):
 
                     break
 
-                continue
+                return
 
             else:
 
@@ -1168,7 +1188,7 @@ def update_user(
             if repeat_operation(
                 "update",
                 "user",
-                "Update User"
+                "User menu"
             ):
 
                 continue
@@ -1186,7 +1206,7 @@ def update_user(
             if repeat_operation(
                 "update",
                 "user",
-                "Update User"
+                "User menu"
             ):
 
                 continue
@@ -1215,81 +1235,167 @@ def update_user(
         )
 
         sleep(0.5)
-    
-        # ---------------- Username ---------------- #
 
-        username = get_username(
-            connection
-        )
+        while True:
 
-        if username is None:
-
-            continue
-
-        # ---------------- First Name ---------------- #
-
-        first_name = get_first_name(connection)
-
-        if first_name is None:
-
-            continue
-
-        # ---------------- Last Name ---------------- #
-
-        last_name = get_last_name()
-
-        if last_name is None:
-
-            continue
-
-        # ---------------- Role ---------------- #
-
-        role = get_role()
-
-        if role is None:
-
-            continue
-
-        sleep(0.5)
-        if current_role == "Administrator" and role != "Administrator":
-
-            cursor = connection.cursor(buffered=True)
+            print("\n\033[1;93mUpdate Options:\033[0m")
+            print(
+                "\033[1;97m"
+                "[1] Username\n"
+                "[2] First Name\n"
+                "[3] Last Name\n"
+                "[4] Role\n"
+                "[5] Update All\n\n"
+                "[0] Cancel\033[0m"
+            )
 
             try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
 
-                cursor.execute(
-                    """
-                    SELECT COUNT(*)
-                    FROM Users
-                    WHERE role='Administrator'
-                    """
-                )
-
-                admin_count = cursor.fetchone()[0]
-
-            finally:
-
-                cursor.close()
-
-            if admin_count == 1:
-
-                print(
-                    "\033[1;91mCannot change the role of the last Administrator.\033[0m"
-                )
-
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
                 sleep(1)
+                continue
 
-                if repeat_operation(
-                    "update",
-                    "user",
-                    "Update User"
-                ):
+            if choice == 0:
+                return
+
+            elif choice == 1:   
+                # ---------------- Username ---------------- #
+
+                username = get_username(
+                    connection
+                )
+
+                if username is None:
+                    continue
+
+                first_name = current_first_name
+                last_name = current_last_name
+                role = current_role
+
+                break
+
+            elif choice == 2:
+
+                # ---------------- First Name ---------------- #
+
+                first_name = get_first_name(connection)
+
+                if first_name is None:
+                    continue
+
+                username = current_username
+                last_name = current_last_name
+                role = current_role
+
+                break
+
+            elif choice == 3:
+
+                # ---------------- Last Name ---------------- #
+
+                last_name = get_last_name(connection)
+
+                if last_name is None:
 
                     continue
 
-                return
+                username = current_username
+                first_name = current_first_name
+                role = current_role
+
+                break
+
+            elif choice == 4:
+
+                # ---------------- Role ---------------- #
+
+                role = get_role()
+
+                if role is None:
+
+                    continue
+
+                username = current_username
+                first_name = current_first_name
+                last_name = current_last_name
+
+                break
+
+            elif choice == 5:
+                username = get_username(
+                    connection
+                )
+
+                if username is None:
+                    continue
+
+                first_name = get_first_name(connection)
+
+                if first_name is None:
+                    continue
+
+                last_name = get_last_name(connection)
+
+                if last_name is None:
+
+                    continue
+
+                role = get_role()
+
+                if role is None:
+
+                    continue
+
+                break
+
+            else:
+                print("\033[1;91mInvalid choice\033[0m")
+                sleep(1)
+                continue
 
         sleep(0.5)
+        if choice in (4,5):
+            if current_role == "Administrator" and role != "Administrator":
+
+                cursor = connection.cursor(buffered=True)
+
+                try:
+
+                    cursor.execute(
+                        """
+                        SELECT COUNT(*)
+                        FROM Users
+                        WHERE role='Administrator'
+                        """
+                    )
+
+                    admin_count = cursor.fetchone()[0]
+
+                finally:
+
+                    cursor.close()
+
+                if admin_count == 1:
+
+                    print(
+                        "\033[1;91mCannot change the role of the last Administrator.\033[0m"
+                    )
+
+                    sleep(1)
+
+                    if repeat_operation(
+                        "update",
+                        "user",
+                        "User menu"
+                    ):
+
+                        continue
+
+                    return
+
+                sleep(0.5)
 
 
         review_user_update(
@@ -1310,12 +1416,12 @@ def update_user(
             if repeat_operation(
                 "update",
                 "user",
-                "Update User"
+                "User menu"
             ):
 
                 continue
 
-            continue
+            return
 
         print("\033[1;93mUpdating user...\033[0m")
 
@@ -1354,12 +1460,12 @@ def update_user(
             if repeat_operation(
                 "update",
                 "user",
-                "Update User"
+                "User menu"
             ):
 
                 continue
 
-            continue
+            return
 
         except Exception as e:
 
@@ -1452,7 +1558,7 @@ def delete_user(
             if repeat_operation(
                 "delete",
                 "user",
-                "Delete User"
+                "User menu"
             ):
 
                 continue
@@ -1470,12 +1576,12 @@ def delete_user(
             if repeat_operation(
                 "delete",
                 "user",
-                "Delete User"
+                "User menu"
             ):
 
                 continue
 
-            continue
+            return
 
         user = get_user(
             connection,
@@ -1522,12 +1628,12 @@ def delete_user(
                 if repeat_operation(
                     "delete",
                     "user",
-                    "Delete User"
+                    "User menu"
                 ):
 
                     continue
 
-                continue
+                return
 
         print("\n\033[1;97mUser Details:\033[0m\n")
 
@@ -1557,12 +1663,12 @@ def delete_user(
             if repeat_operation(
                 "delete",
                 "user",
-                "Delete User"
+                "User menu"
             ):
 
                 continue
 
-            continue
+            return
 
         print("\033[1;93mDeleting user...\033[0m")
 
@@ -1591,12 +1697,12 @@ def delete_user(
             if repeat_operation(
                 "delete",
                 "user",
-                "Delete User"
+                "User menu"
             ):
 
                 continue
 
-            continue
+            return
 
         except Exception as e:
 
@@ -1697,17 +1803,53 @@ def change_password(
             "\n\033[1;93mPlease verify your current password.\033[0m\n"
         )
 
-        current_password = getpass(
-            "\033[1;93mCURRENT PASSWORD: \033[0m"
-        )
+        print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+        while True:
+            try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
 
-        if current_password.lower() == "cancel":
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
 
-            print("\033[1;97mCancelling...\033[0m")
+            if choice == 1:
+                import pwinput
+                while True:
+                    current_password = pwinput.pwinput(prompt="\033[1;96mCurrent Password: \033[0m", mask= "*")
 
-            sleep(1)
+                    if current_password:
+                        break
 
-            return
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            elif choice == 2:
+                while True:
+                    current_password = input("\033[1;96mCurrent Password: \033[0m")
+
+                    if current_password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            else:
+                print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                sleep(1)
+                continue
+
+            if current_password:
+                break
+
+
+        # if current_password.lower() == "cancel":
+
+        #     print("\033[1;97mCancelling...\033[0m")
+
+        #     sleep(1)
+
+        #     return
 
         if not verify_current_password(
             current_password,
@@ -1728,7 +1870,44 @@ def change_password(
 
         sleep(0.5)
 
-        new_password = get_new_password()
+        print("\033[1;97mPassword Visibility:\n1. Hide Password (More Secure)\n2. Show Password\033[0m\n")
+        while True:
+            try:
+                choice = int(input("\033[1;93mChoice: \033[0m"))
+
+            except ValueError:
+                print("\033[1;91mEnter a valid input\033[0m")
+                sleep(1)
+                continue
+
+            if choice == 1:
+                import pwinput
+                while True:
+                    new_password = pwinput.pwinput(prompt="\033[1;96mNew Password: \033[0m", mask= "*")
+
+                    if new_password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            elif choice == 2:
+                while True:
+                    new_password = input("\033[1;96mNew Password: \033[0m")
+
+                    if new_password:
+                        break
+
+                    print("\033[1;91m❌ Password cannot be empty\033[0m\n")
+                    sleep(0.5)
+
+            else:
+                print("\033[1;91mPlease enter 1 or 2...\033[0m")
+                sleep(1)
+                continue
+
+            if new_password:
+                break
 
         if new_password is None:
             continue
@@ -2439,7 +2618,7 @@ def db_info(connection):
                 """
                 SELECT
                     IFNULL(
-                        SUM(stock_quantity * selling_price),
+                        SUM(quantity * selling_price),
                         0
                     )
                 FROM Products
